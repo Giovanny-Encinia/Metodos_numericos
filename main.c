@@ -9,11 +9,11 @@
 int main(void)
 {
     char opcion;
+    double error = 0.0000001;
 
     printf("\t1- Resultados Diferencias finitas\n");
-    printf("\t2- Resultado metodo de Jacobi\n");
-    printf("\t3- Resultado Gauss Seidel\n");
-    printf("\n\tElige una opcion");
+    printf("\t2- Resultado Jacobi vs. Resultado Gauss-Seidel\n");
+    printf("\n\tElige una opcion\t");
 
     scanf(" %c", &opcion);
 
@@ -30,12 +30,11 @@ int main(void)
     case '2':
         printf("\t\tSolucion Jacobi\n");
         printf("--------------------------------------------------------\n");
-        solve_jacobi("test_mat.txt", "test_vec.txt");
-        break;
-    case '3':
+        solve_jacobi("test_mat.txt", "test_vec.txt", error);
+        printf("\n========================================================\n");
         printf("\t\tSolucion Gauss-Seidel\n");
         printf("--------------------------------------------------------\n");
-        solve_gauss_seidel("test_mat.txt", "test_vec.txt");
+        solve_gauss_seidel("test_mat.txt", "test_vec.txt", error);
         break;
     }
 

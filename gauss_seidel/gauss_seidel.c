@@ -4,12 +4,12 @@
 #define ZERO 0
 #define ONE 1
 
-int convergencia_gs(double **matrix, int rows, double *x, double *y)
+int convergencia_gs(double **matrix, int rows, double *x, double *y, double intervalo)
 {
     /*Funcion que resisa la
     convergencia de la solucion, |Ax - b| es muy pequenio*/
     int i, j;
-    double intervalo = 0.0000001, sum, number;
+    double sum, number;
 
     for(i=ZERO; i < rows; i++)
     {
@@ -32,7 +32,7 @@ int convergencia_gs(double **matrix, int rows, double *x, double *y)
 
 }
 
-void gauss_seidel(double **matrix, int rows, double *y, double *x, int *iterations)
+void gauss_seidel(double **matrix, int rows, double *y, double *x, int *iterations, double error)
 {
     /*Solucion a sistema de ecuaciones por el metodo de Jacobi
 
@@ -68,7 +68,7 @@ void gauss_seidel(double **matrix, int rows, double *y, double *x, int *iteratio
             *(x + i) = (*(y + i) - sum)/ (*(*(matrix + i) + i));
         }
 
-        condition = convergencia_gs(matrix, rows, x, y);
+        condition = convergencia_gs(matrix, rows, x, y, error);
 
         k++;
     }
@@ -76,7 +76,7 @@ void gauss_seidel(double **matrix, int rows, double *y, double *x, int *iteratio
     *iterations = k;
 }
 
-void *solve_gauss_seidel(char *name_mat, char *name_vec)
+void *solve_gauss_seidel(char *name_mat, char *name_vec, double error)
 {
     int m, n, i, k;
     double *y, **matrix, *x;
@@ -90,9 +90,9 @@ void *solve_gauss_seidel(char *name_mat, char *name_vec)
     for(i = ZERO; i < m; i++)
         *(x + i) = ONE;
 
-    gauss_seidel(matrix, m, y, x, &k);
+    gauss_seidel(matrix, m, y, x, &k, error);
 
-    printf("El numero de iteraciones es: %d\n", k);
+    printf("El numero de iteraciones es %d, el error absoluto es %.9lf\n", k, error);
     printf("La solucion es:\n");
     print_solucion(x, m);
 

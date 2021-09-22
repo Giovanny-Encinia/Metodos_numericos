@@ -4,12 +4,12 @@
 #define ZERO 0
 #define ONE 1
 
-int convergencia(double **matrix, int rows, double *x, double *y)
+int convergencia(double **matrix, int rows, double *x, double *y, double intervalo)
 {
     /*Funcion que resisa la
     convergencia de la solucion, |Ax - b| es muy pequenio*/
     int i, j;
-    double intervalo = 0.0000001, sum, number;
+    double sum, number;
 
     for(i=ZERO; i < rows; i++)
     {
@@ -32,7 +32,7 @@ int convergencia(double **matrix, int rows, double *x, double *y)
 
 }
 
-void jacobi(double **matrix, int rows, double *y, double *x, int *iterations)
+void jacobi(double **matrix, int rows, double *y, double *x, int *iterations, double error)
 {
     /*Solucion a sistema de ecuaciones por el metodo de Jacobi
 
@@ -68,7 +68,7 @@ void jacobi(double **matrix, int rows, double *y, double *x, int *iterations)
             *(xk + i) = (*(y + i) - sum)/ (*(*(matrix + i) + i));
         }
 
-        condition = convergencia(matrix, rows, xk, y);
+        condition = convergencia(matrix, rows, xk, y, error);
 
         for(i = ZERO; i < rows; i++)
             *(x + i) = *(xk + i);
@@ -80,7 +80,7 @@ void jacobi(double **matrix, int rows, double *y, double *x, int *iterations)
     free(xk);
 }
 
-void *solve_jacobi(char *name_mat, char *name_vec)
+void *solve_jacobi(char *name_mat, char *name_vec, double error)
 {
     int m, n, i, k;
     double *y, **matrix, *x;
@@ -94,9 +94,9 @@ void *solve_jacobi(char *name_mat, char *name_vec)
     for(i = ZERO; i < m; i++)
         *(x + i) = ONE;
 
-    jacobi(matrix, m, y, x, &k);
+    jacobi(matrix, m, y, x, &k, error);
 
-    printf("El numero de iteraciones es: %d\n", k);
+    printf("El numero de iteraciones es %d, el error absoluto es %.9lf\n", k, error);
     printf("La solucion es:\n");
     print_solucion(x, m);
 
