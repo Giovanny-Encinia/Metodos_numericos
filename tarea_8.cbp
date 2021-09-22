@@ -31,7 +31,23 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="difrerencias_finitas_calor/calor.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="difrerencias_finitas_calor/calor.h" />
+		<Unit filename="gauss_seidel/gauss_seidel.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="gauss_seidel/gauss_seidel.h" />
+		<Unit filename="jacobi/jacobi.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="jacobi/jacobi.h" />
 		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="print_read/prdynamic.h" />
+		<Unit filename="print_read/print_read_dinamyc.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Extensions>

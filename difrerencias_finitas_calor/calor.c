@@ -144,7 +144,7 @@ void solve_cholesky_calor(double **matrix, int rows, double *y, double *x)
     free(w);
 }
 
-void solve_calor_diferencias_finitas(double Q, double K, double d_i, double d_n, int n, double L)
+double *solve_calor_diferencias_finitas(double Q, double K, double d_i, double d_n, int n, double L)
 {
     /*Resuelve problema de flujo de calor
 
@@ -167,13 +167,13 @@ void solve_calor_diferencias_finitas(double Q, double K, double d_i, double d_n,
     y = generar_y(Q, K, d_i, d_n, n, L);
     solve_cholesky_calor(matrix, n - ONE, y, x);
 
-    for(i=ZERO; i< n - ONE; i++)
+    /*for(i=ZERO; i< n - ONE; i++)
     {
         printf("X%d=%lf,  ", i, *(y + i));
 
         if((i + ONE)%5 == ZERO)
             printf("\n\n");
-    }
+    }*/
 
     printf("\tsolucion para %d elementos\n\n", n);
 
@@ -194,4 +194,6 @@ void solve_calor_diferencias_finitas(double Q, double K, double d_i, double d_n,
     free(y);
     free(matrix[0]);
     free(matrix);
+
+    return x;
 }
