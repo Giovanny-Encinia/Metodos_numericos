@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1632288717 source:c:\users\giova\documents\cimat\semestre 1\metodos_numericos\tarea_8\main.c
+1632289588 source:c:\users\giova\documents\cimat\semestre 1\metodos_numericos\tarea_8\main.c
 	<stdio.h>
 	<stdlib.h>
 	"difrerencias_finitas_calor/calor.h"

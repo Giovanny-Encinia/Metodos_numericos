@@ -96,7 +96,7 @@ void *solve_jacobi(char *name_mat, char *name_vec, double error)
 
     jacobi(matrix, m, y, x, &k, error);
 
-    printf("El numero de iteraciones es %d, el error absoluto es %.9lf\n", k, error);
+    printf("El numero de iteraciones es %d, el error absoluto es %.12lf\n", k, error);
     printf("La solucion es:\n");
     print_solucion(x, m);
 

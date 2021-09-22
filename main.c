@@ -58,7 +58,7 @@ void print_calor(int *ar)
 int main(void)
 {
     char opcion;
-    double error = 0.0000001, *x;
+    double error = 1E-12, *x;
     int ar[] = {10, 30, 50, 70, 100};
 
     printf("\t1- Resultados Diferencias finitas\n");
@@ -78,13 +78,21 @@ int main(void)
         print_calor(ar);
         break;
     case '2':
-        printf("\t\tSolucion Jacobi\n");
+        printf("\t\tSolucion Jacobi 3x3\n");
         printf("--------------------------------------------------------\n");
-        solve_jacobi("test_mat.txt", "test_vec.txt", error);
+        solve_jacobi("Materiales/M_sys_3x3.txt", "Materiales/V_sys_3x1.txt", error);
         printf("\n========================================================\n");
-        printf("\t\tSolucion Gauss-Seidel\n");
+        printf("\t\tSolucion Gauss-Seidel 3x3\n");
         printf("--------------------------------------------------------\n");
-        solve_gauss_seidel("test_mat.txt", "test_vec.txt", error);
+        solve_gauss_seidel("Materiales/M_sys_3x3.txt", "Materiales/V_sys_3x1.txt", error);
+        printf("\n========================================================\n");
+        printf("\t\tSolucion Jacobi 125x125\n");
+        printf("--------------------------------------------------------\n");
+        solve_jacobi("Materiales/M_sys_125x125.txt", "Materiales/V_sys_125x1.txt", error);
+        printf("\n========================================================\n");
+        printf("\t\tSolucion Gauss-Seidel 125x125\n");
+        printf("--------------------------------------------------------\n");
+        solve_gauss_seidel("Materiales/M_sys_125x125.txt", "Materiales/V_sys_125x1.txt", error);
         break;
     }
 
