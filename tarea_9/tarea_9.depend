@@ -1,0 +1,41 @@
+# depslib dependency file v1.0
+1632455544 source:c:\users\giova\documents\cimat\semestre 1\metodos_numericos\tarea_9\main.c
+	<stdio.h>
+	<stdlib.h>
+	"potencia/eigen_potencia.h"
+	"print_read/prdynamic.h"
+
+1632452808 c:\users\giova\documents\cimat\semestre 1\metodos_numericos\tarea_9\potencia\eigen_potencia.h
+
+1632230208 c:\users\giova\documents\cimat\semestre 1\metodos_numericos\tarea_9\print_read\prdynamic.h
+
+1632455491 source:c:\users\giova\documents\cimat\semestre 1\metodos_numericos\tarea_9\potencia\eigen_potencia.c
+	<stdlib.h>
+	<math.h>
+	<stdio.h>
+	"../print_read/prdynamic.h"
+
+1632455108 source:c:\users\giova\documents\cimat\semestre 1\metodos_numericos\tarea_9\print_read\print_read_dinamyc.c
+	<stdio.h>
+	<stdlib.h>
+
+1632455544 source:c:\users\giova\documents\cimat\semestre 1\metodos_numericos\metodos_numericos\tarea_9\main.c
+	<stdio.h>
+	<stdlib.h>
+	"potencia/eigen_potencia.h"
+	"print_read/prdynamic.h"
+
+1632452808 c:\users\giova\documents\cimat\semestre 1\metodos_numericos\metodos_numericos\tarea_9\potencia\eigen_potencia.h
+
+1632230208 c:\users\giova\documents\cimat\semestre 1\metodos_numericos\metodos_numericos\tarea_9\print_read\prdynamic.h
+
+1632455491 source:c:\users\giova\documents\cimat\semestre 1\metodos_numericos\metodos_numericos\tarea_9\potencia\eigen_potencia.c
+	<stdlib.h>
+	<math.h>
+	<stdio.h>
+	"../print_read/prdynamic.h"
+
+1632455108 source:c:\users\giova\documents\cimat\semestre 1\metodos_numericos\metodos_numericos\tarea_9\print_read\print_read_dinamyc.c
+	<stdio.h>
+	<stdlib.h>
+
