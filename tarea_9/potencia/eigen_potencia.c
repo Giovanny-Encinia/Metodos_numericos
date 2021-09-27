@@ -42,9 +42,9 @@ double **eigen_dominante(char *name, int *m_c)
     x0 = (double*)calloc(m, sizeof(double));
 
     for(i = ZERO; i < m; i++)
-        *(x0 + i) = ONE / sqrt(n);
+        *(x0 + i) = ONE / sqrt(m);
 
-    while(condition || iteration > LIMIT)
+    while(condition && iteration < LIMIT)
     {
         /*calcula el valor del nuevo vector con Ax0 = x1*/
         x1 = dot(matrix, x0, m, m);
@@ -57,6 +57,8 @@ double **eigen_dominante(char *name, int *m_c)
             /*se guarda el eigenvector*/
             *(sol + ONE) = x1;
             printf("El numero de iteraciones es: %d\n", iteration);
+            free(x0);
+            free_matrix(matrix, m);
             return sol;
         }
 

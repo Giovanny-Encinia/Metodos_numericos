@@ -28,10 +28,9 @@ int main()
 
 
     printf("Eigen mayores:\n");
-    em = eigen_mayores("test.txt", &m, 2);
-    print_solucion(em, 2);
+    eigen_mayores("test.txt", &m, 2);
 
-    free(em);
+
     free_solution_eigen(sol_m);
     free_solution_eigen(solucion);
 

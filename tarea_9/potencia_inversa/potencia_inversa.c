@@ -52,7 +52,7 @@ double **eigen_menor(char *name, int *m_c)
     x0 = (double*)calloc(m, sizeof(double));
 
     for(i = ZERO; i < m; i++)
-        *(x0 + i) = ONE / sqrt(n);
+        *(x0 + i) = ONE / sqrt(m);
 
     while(condition && iteration < LIMIT)
     {
@@ -69,8 +69,11 @@ double **eigen_menor(char *name, int *m_c)
         if(fabs(lambda_old - (**sol)) < ERROR)
         {
             /*se guarda el eigenvector*/
+            /*memoria en x1 se elimina al eliminar memoria de sol*/
             *(sol + ONE) = x1;
             printf("El numero de iteraciones es: %d\n", iteration);
+            free(x0);
+            free_matrix(matrix, m);
             return sol;
         }
 
