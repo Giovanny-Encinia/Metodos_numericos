@@ -31,13 +31,29 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="LU/factorization_lu.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="LU/factorization_lu.h" />
+		<Unit filename="m_eigenvalores_mayores/m_eigenvalores_mayores.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="m_eigenvalores_mayores/m_eigenvalores_mayores.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="matrix_math/matrix_math.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="matrix_math/matrix_math.h" />
 		<Unit filename="potencia/eigen_potencia.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="potencia/eigen_potencia.h" />
+		<Unit filename="potencia_inversa/potencia_inversa.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="potencia_inversa/potencia_inversa.h" />
 		<Unit filename="print_read/prdynamic.h" />
 		<Unit filename="print_read/print_read_dinamyc.c">
 			<Option compilerVar="CC" />
