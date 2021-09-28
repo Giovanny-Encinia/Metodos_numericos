@@ -89,27 +89,15 @@ print_array(contribution, m);
 
         if(it_k)
         {
-            printf("x0\n");
-print_array(x0, m);
         /*\hat{v_{0}} = v0 - xn *v0 *xn */
         xnv0 = dot_vector(xn, x0, m);
-
-        printf("p esc %.9lf\n", xnv0);
-        print_array(xn, m);
 
         for(i = ZERO; i < m; i++)
             *(xn_c + i) = *(xn + i);
 
         producto_escalar(xnv0, xn_c, m);
-        printf("producto escalar\n");
-        print_array(xn_c, m);
         vector_sum(contribution, xn_c, m);
-        printf("contri\n");
-print_array(contribution, m);
         vector_rest(x0, contribution, m);
-        printf("new x0\n");
-        print_array(x0, m);
-
         }
 
 
@@ -162,9 +150,7 @@ printf("nate\n");
 
     }
 
-
     free_solution_eigen(sol);
-
     free(contribution);
     free_matrix(matrix, m);
 

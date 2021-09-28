@@ -31,7 +31,7 @@ double **eigen_dominante(char *name, int *m_c)
     /*El primer elemento sera el eigenvalor*/
     double **sol = (double **)malloc(TWO * sizeof(double *));
     int condition = ONE;
-    int  n, iteration, m, i;
+    int  n, iteration = ZERO, m, i;
 
 
     matrix = read_matrix_file(name, &m, &n, ZERO);
@@ -56,7 +56,7 @@ double **eigen_dominante(char *name, int *m_c)
         {
             /*se guarda el eigenvector*/
             *(sol + ONE) = x1;
-            printf("El numero de iteraciones es: %d\n", iteration);
+            printf("\tIteraciones: %d\n", iteration);
             free(x0);
             free_matrix(matrix, m);
             return sol;

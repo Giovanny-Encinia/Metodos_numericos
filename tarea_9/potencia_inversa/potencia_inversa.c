@@ -71,7 +71,7 @@ double **eigen_menor(char *name, int *m_c)
             /*se guarda el eigenvector*/
             /*memoria en x1 se elimina al eliminar memoria de sol*/
             *(sol + ONE) = x1;
-            printf("El numero de iteraciones es: %d\n", iteration);
+            printf("\tIteraciones: %d\n", iteration);
             free(x0);
             free_matrix(matrix, m);
             return sol;

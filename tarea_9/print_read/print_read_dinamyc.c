@@ -28,13 +28,14 @@ void print_solucion(double *array, int rows)
 {
     int i = ZERO;
 
+    printf("\t");
     while(i < rows)
     {
         printf("x%d: %lf ", i, *(array + i));
         i++;
 
         if(i % 5 == ZERO)
-            printf("\n");
+            printf("\n\t");
     }
 
     printf("\n");

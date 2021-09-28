@@ -7,32 +7,51 @@
 #define ONE 1
 #define ZERO 0
 
-int main()
+void imprimir_resultado_eigen(char *name, int t, char *name_save)
 {
     double **solucion, **sol_m, *em;
     int m;
+    FILE *file;
 
-    solucion = eigen_dominante("test.txt", &m);
-
-    printf("El eigenvalor dominante es: %lf\n", **solucion);
-
-    printf("El eigenvector es:\n");
+    printf("\t========================");
+    printf("===========================================================\n");
+    printf("\t|%40s%3dx%3d%35s\n", "Matriz",t, t, "|");
+    printf("\t========================");
+    printf("===========================================================\n");
+    printf("\t|Eigen Dominante%67s\n", "|");
+    printf("\t------------------------");
+    printf("-----------------------------------------------------------\n");
+    solucion = eigen_dominante(name, &m);
+    printf("\tEigenvalor: %lf\n", **solucion);
+    printf("\tEigenvector:\n");
     print_solucion(*(solucion + ONE), m);
 
-    sol_m = eigen_menor("test.txt", &m);
-
-    printf("El eigenvalor minimo es: %lf\n", **sol_m);
-
-    printf("El eigenvector es:\n");
-    print_solucion(*(sol_m + ONE), m);
+    printf("\t------------------------");
+    printf("-----------------------------------------------------------\n");
 
 
-    printf("Eigen mayores:\n");
-    eigen_mayores("test.txt", &m, 2);
+    printf("\t|Eigen Menor%71s\n", "|");
+    printf("\t------------------------");
+    printf("-----------------------------------------------------------\n");
+    sol_m = eigen_menor(name, &m);
+    printf("\tEigenvalor: %lf\n", **sol_m);
+    printf("\tEigenvalor\n");
+    print_solucion(*(solucion + ONE), m);
+    printf("\t========================");
+    printf("===========================================================\n");
+    printf("\n");
 
-
+    /*printf("\tEigen mayores:\n");
+    eigen_mayores(name, &m, 2);
     free_solution_eigen(sol_m);
-    free_solution_eigen(solucion);
+    free_solution_eigen(solucion);*/
+}
+
+int main()
+{
+    imprimir_resultado_eigen("Materiales/Eigen_3x3.txt", 3, "Resultados/Eigen_3.txt");
+    imprimir_resultado_eigen("Materiales/Eigen_50x50.txt", 50, "Resultados/Eigen_50.txt");
+    imprimir_resultado_eigen("Materiales/Eigen_125x125.txt", 125, "Resultados/Eigen_125.txt");
 
     return ZERO;
 }
