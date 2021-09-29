@@ -36,15 +36,15 @@ void imprimir_resultado_eigen(char *name, int t, char *name_save)
     sol_m = eigen_menor(name, &m);
     printf("\tEigenvalor: %lf\n", **sol_m);
     printf("\tEigenvalor\n");
-    print_solucion(*(solucion + ONE), m);
+    print_solucion(*(sol_m + ONE), m);
     printf("\t========================");
     printf("===========================================================\n");
     printf("\n");
 
-    /*printf("\tEigen mayores:\n");
+    printf("\tEigen mayores:\n");
     eigen_mayores(name, &m, 2);
     free_solution_eigen(sol_m);
-    free_solution_eigen(solucion);*/
+    free_solution_eigen(solucion);
 }
 
 int main()

@@ -19,7 +19,7 @@ void producto_escalar(double a, double *x, int m)
     int i;
 
     for(i = ZERO; i < m; i++)
-        *(x + i) *= a;
+        (*(x + i)) *= a;
 }
 
 
@@ -46,7 +46,7 @@ void vector_rest(double *x, double *y, int m)
 
     for(i = ZERO; i < m; i++)
     {
-        *(x + i) -= *(y + i);
+        (*(x + i)) -= (*(y + i));
     }
 
 }

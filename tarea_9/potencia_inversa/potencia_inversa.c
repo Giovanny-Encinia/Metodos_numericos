@@ -16,7 +16,7 @@
 #define TWO 2
 #endif /*TWO*/
 #define LIMIT 1000000
-#define ERROR 1E-8
+#define ERROR 1E-13
 
 void free_solution_eigen_(double **solution)
 {
@@ -36,7 +36,7 @@ double **eigen_menor(char *name, int *m_c)
     int *m_c: variable en donde se alojara el tamanio de la matriz
     */
 
-    double **matrix, *x1, *x0, lambda_old = 1E15;
+    double **matrix, *x1, *x0, lambda_old = 400000000;
     /*se almacena el eigenvalor y eigenvector*/
     /*El primer elemento sera el eigenvalor*/
     double **sol = (double **)malloc(TWO * sizeof(double *));
@@ -51,8 +51,7 @@ double **eigen_menor(char *name, int *m_c)
     /*Se crea espacio para el vector inicial*/
     x0 = (double*)calloc(m, sizeof(double));
 
-    for(i = ZERO; i < m; i++)
-        *(x0 + i) = ONE / sqrt(m);
+    *x0 = ONE/sqrt(m);
 
     while(condition && iteration < LIMIT)
     {

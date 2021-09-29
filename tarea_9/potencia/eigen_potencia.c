@@ -15,7 +15,7 @@
 #define TWO 2
 #endif /*TWO*/
 #define LIMIT 1000000
-#define ERROR 1E-8
+#define ERROR 1E-11
 
 void free_solution_eigen(double **solution)
 {
@@ -42,7 +42,7 @@ double **eigen_dominante(char *name, int *m_c)
     x0 = (double*)calloc(m, sizeof(double));
 
     for(i = ZERO; i < m; i++)
-        *(x0 + i) = ONE / sqrt(m);
+        *(x0 + i) = 2 / sqrt(m);
 
     while(condition && iteration < LIMIT)
     {
@@ -63,6 +63,7 @@ double **eigen_dominante(char *name, int *m_c)
         }
 
         lambda_old = **(sol);
+
         for(i = ZERO; i < m; i++)
             *(x0 + i) = *(x1 + i);
 
