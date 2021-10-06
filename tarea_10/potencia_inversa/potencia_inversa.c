@@ -36,16 +36,15 @@ double **eigen_menor(double **matrix, int m, double **eigen_old , int k)
     int *m_c: variable en donde se alojara el tamanio de la matriz
     */
     /*lambda_old al inicio tiene un valor muy grande*/
-    char a[] = "jola";
+
     /*double eigen_old[] = {0.999191, 0.027147, 0.029675};*/
     double ai;
-    double *x1, *x0, lambda_old = 400000000;
+    double *x1, *x0, lambda_old = 4000000;
     /*se almacena el eigenvalor y eigenvector*/
     /*El primer elemento sera el eigenvalor*/
     /*sol es una matriz que contiene los eigen pares*/
     double **sol = (double **)malloc(TWO * sizeof(double *));
     double numerador, denominador;
-    int condition = ONE;
     int iteration = ZERO, value, i, j;
 
     /*el primer elemento de la matriz sol contiene el eigenvalor*/
@@ -75,7 +74,7 @@ double **eigen_menor(double **matrix, int m, double **eigen_old , int k)
     }
 
 
-    while(condition && iteration < LIMIT)
+    while(iteration < LIMIT)
     {
 
         /*aqui se quitan los terminos anteriores
@@ -118,7 +117,7 @@ double **eigen_menor(double **matrix, int m, double **eigen_old , int k)
             /*memoria en x1 se elimina al eliminar memoria de sol*/
             normalizar_vector(x1, m);
             *(sol + ONE) = x1;
-            printf("\tIteraciones: %d\n", iteration);
+            printf("%lf\n", **sol);
             /*liberamos la memoria de x0*/
             free(x0);
             /*liberamos la matriz que se aha creado*/
@@ -149,41 +148,57 @@ double **eigen_menor(double **matrix, int m, double **eigen_old , int k)
     return NULL;
 }
 
-int eigen_menores(char *name, int *m_c)
+double **eigen_menores(char *name, int *number, double *eigen_valores, double **eigen_vectores, int m_eigen)
 {
-    int m, n, i, j;
+    int m, n, i, j, number_eigen;
     double **matrix = read_matrix_file(name, &m, &n, ZERO);
-    double **sol, **eigen_old;
+    double **sol, **eigen_old, *eigen_values;
+    /*archivo Resultados/Materiales/....txt*/
 
-    *m_c = m;
+    number_eigen = m_eigen;
+    *number = number_eigen + ONE;
+    /*se crea memoria para los eigenvectores*/
+    /*el primer elemento de los eigenvectores
+    sera el vector 0, asi que se debe tener cuidado*/
+    eigen_old = (double **)malloc((number_eigen + ONE) * sizeof(double *));
+    eigen_values = (double *)malloc((number_eigen + ONE) * sizeof(double));
 
-    eigen_old = (double **)malloc((m + 1) * sizeof(double *));
 
-    for(i = ZERO; i < 2; i++)
+    for(i = ZERO; i < number_eigen; i++)
     {
 
-    sol = eigen_menor(matrix, m, eigen_old, i);
-    printf("\t|Eigen Menor%71s\n", "|");
-    printf("\t------------------------");
-    printf("-----------------------------------------------------------\n");
-    printf("\tEigenvalor: %lf\n", **sol);
-    printf("\tEigenvalor\n");
-    print_solucion(*(sol + ONE), m);
+        sol = eigen_menor(matrix, m, eigen_old, i);
 
-    *(eigen_old + i + ONE) = (double *)malloc(m * sizeof(double));
+        if(m < 7)
+        {
+            printf("\t|Eigen Menor %5d %71s\n", i,"|");
+            printf("\t------------------------");
+            printf("-----------------------------------------------------------\n");
+            printf("\tEigenvalor: %lf\n", **sol);
+            printf("\t|Eigen Valor %5d %71s\n", i,"|");
+            print_solucion(*(sol + ONE), m);
+            printf("\t========================");
+            printf("===========================================================\n");
+            printf("\n");
+        }
 
-    for(j = ZERO; j < m; j++)
-       *(*(eigen_old + i + ONE) + j) =  *(*(sol + ONE) + j);
+        *(eigen_values + i) = **sol;
+        *(eigen_old + i + ONE) = (double *)malloc(m * sizeof(double));
 
-    printf("\t========================");
-    printf("===========================================================\n");
-    printf("\n");
-    free_solution_eigen_(sol);
+        for(j = ZERO; j < m; j++)
+           *(*(eigen_old + i + ONE) + j) =  *(*(sol + ONE) + j);
+
+
+        free_solution_eigen_(sol);
+    }
+
+    for(i = ZERO; i < number_eigen; i++)
+    {
+        *(eigen_valores + i) = *(eigen_values + i);
     }
 
     free_matrix(matrix, m);
-    free_expanded_matrix(eigen_old, m);
+    free(eigen_values);
 
-
-    return ONE;
+    return eigen_old;
 }
