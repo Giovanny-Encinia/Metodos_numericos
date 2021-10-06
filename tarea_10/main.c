@@ -1,12 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "potencia_inversa/potencia_inversa.h"
 #include "print_read/prdynamic.h"
+#include <errno.h>
 #define ONE 1
 #define ZERO 0
 
 void imprimir_resultado_eigen(char *name, char *name_save, int m)
-{
+{    char a[] = "eror";
     char bufer[100];
     char bufer2[100];
     double *eigen_valores, **eigen_vectores;
@@ -45,21 +47,25 @@ void imprimir_resultado_eigen(char *name, char *name_save, int m)
 
     for(i = ZERO; i < m_eigen; i++)
     {
+        printf("eigen %lf\n", *(eigen_valores + i));
+        printf("\n");
         fprintf(f_valor, "%lf, ", *(eigen_valores + i));
         fprintf(f_valor, "\n");
     }
 
-    free_expanded_matrix(eigen_vectores, m_eigen + ONE);
     free(eigen_valores);
-    fclose(f_vector);
-    fclose(f_valor);
+    free(eigen_vectores);
 
+    fclose(f_valor);
+    fclose(f_vector);
 
 
 }
 
 int main()
 {
-    imprimir_resultado_eigen("Materiales/Eigen_7x7.txt", "Resultados/_7x7_", 13);
+    /*imprimir_resultado_eigen("Materiales/Eigen_3x3.txt", "Resultados/_3x3_", 3);
+    imprimir_resultado_eigen("Materiales/Eigen_50x50.txt", "Resultados/_50x50_", 50);*/
+    imprimir_resultado_eigen("Materiales/Eigen_500x500.txt", "Resultados/_500x500_", 500);
     return ZERO;
 }
