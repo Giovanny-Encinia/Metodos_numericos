@@ -1,0 +1,363 @@
+	Eigenvalor: 1.000000
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	
+	Eigenvalor: 0.000598
+	Eigenvector:
+	

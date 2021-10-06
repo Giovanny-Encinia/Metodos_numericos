@@ -1,0 +1,6 @@
+	Eigenvalor: 10.034796
+	Eigenvector:
+	
+	Eigenvalor: 10.034796
+	Eigenvector:
+	

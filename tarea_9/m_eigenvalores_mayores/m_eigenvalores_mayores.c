@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 #include <math.h>
 #include <stdio.h>
 #include "../print_read/prdynamic.h"
@@ -15,134 +16,155 @@
 #ifndef TWO
 #define TWO 2
 #endif /*TWO*/
-#define LIMIT 100000
-#define ERROR 1E-12
+#define LIMIT 1000
+#define ERROR 1E-11
 
-
-double *eigen_n_mayor(double **matrix, int m, int it_k, double **xn)
+double **eigen_dominante_m(double **matrix, int m, double **eigen_values, int final_, int normalizar_)
 {
-    double *x1, *x0, lambda_old = ZERO, xnv0, *xn_c, *contribution, lambda;
-    int i, condition = ONE, iteration = ZERO, j;
+    double  *x1, *x0, lambda_old = ZERO, an;
     /*se almacena el eigenvalor y eigenvector*/
     /*El primer elemento sera el eigenvalor*/
-    contribution = (double *)calloc(m, sizeof(double));
+    double **sol = (double **)malloc(TWO * m * sizeof(double *));
+    int condition = ONE;
+    int  n, iteration = ZERO, k, j;
+    int i;
+
+
+    *sol = (double*)malloc(sizeof(double));
+    *(sol + ONE) = (double*)malloc(m * sizeof(double));
     /*Se crea espacio para el vector inicial*/
     x0 = (double*)calloc(m, sizeof(double));
-    xn_c = (double*)calloc(m, sizeof(double));
 
     for(i = ZERO; i < m; i++)
         *(x0 + i) = ONE / sqrt(m);
 
     while(condition && iteration < LIMIT)
     {
-
         /*calcula el valor del nuevo vector con Ax0 = x1*/
         x1 = dot(matrix, x0, m, m);
+
         /*calcula el valor de lambda x1^{T}x0/ x0^{T}x0*/
-        lambda = dot_vector(x1, x0, m) / dot_vector(x0, x0, m);
+        **(sol) = dot_vector(x1, x0, m) / dot_vector(x0, x0, m);
 
         /*identifica cuando converge al eigenvalor dominante*/
-        if(fabs(lambda_old - lambda) < ERROR)
+        if(fabs(lambda_old - (**sol)) < ERROR)
         {
             /*se guarda el eigenvector*/
-            normalizar_vector(x1, m);
-
-            printf("\tEl numero de iteraciones es: %d\n", iteration);
-            printf("Eigenvalor: %lf\n", lambda);
+            *(sol + ONE) = x1;
+           /* printf("\tIteraciones: %d\n", iteration);*/
             free(x0);
-            free(xn_c);
-            free(contribution);
-            return x1;
+
+            return sol;
         }
 
-        lambda_old = lambda;
+         lambda_old = **(sol);
 
+        /*el valor old sera ahora el valor x1*/
         for(i = ZERO; i < m; i++)
             *(x0 + i) = *(x1 + i);
 
-        normalizar_vector(x0, m);
+        if(normalizar_)
+            normalizar_vector(x0, m);
+
+        /*quita las contribuciones de los vectores anteriores*/
+        if(final_ != 0)
+        {
+            /*opera sobre cada xn que se ha encontrado, siendo xn cada uno de
+            los eigenvectores*/
+            for(i = ZERO; i < final_; i++)
+            {
+                /*se define como el productopunto*/
+                an = dot_vector(x0, *(eigen_values +  i), m);
+
+                for(j = ZERO; j < m; j++)
+                    *(x0 + j) -= an * (*(*(eigen_values +  i) + j));
+            }
+
+        }
+
         free(x1);
         /*es necesario normalizar para que los elementos
         de los vectores no sean demasiados
         grandes*/
-
-        for(j = ZERO; j < it_k; j++)
-        {
-            xnv0 = dot_vector(*(xn + j), x0, m);
-
-            for(i = ZERO; i < m; i++)
-                *(xn_c + i) = *(*(xn + j) + i);
-
-            producto_escalar(xnv0, xn_c, m);
-
-            for(i = ZERO; i < m; i++)
-                *(contribution + i) = *(xn_c + i);
-
-            /*vector_sum(contribution, xn_c, m);*/
-            vector_rest(x0, contribution, m);
-        }
-
+        normalizar_vector(x0, m);
         iteration++;
     }
 
-    free(contribution);
-    free(xn_c);
     free(x0);
 
-    printf("no hay solucion\n");
+
     return NULL;
 }
 
-void eigen_mayores(char *name, int *m_c, int number)
+void eigen_m(char *name, int *m_c, int normalizar_)
 {
-    /*Calcula el eigenvalor y eigen vector dominante de
-    una matriz
-
-    Parametros
-    ===========
-    char *name: el nombre del archivo de donde se leera la matriz
-    int *m_c: variable en donde se alojara el tamanio de la matriz
-    */
-
-    double **sol, *xn_temp;
-    double **matrix;
-    /*se almacena el eigenvalor y eigenvector*/
-    /*El primer elemento sera el eigenvalor*/
-    double **xn;
-    int  n, m, i, filas, j;
+    double **solucion, **matrix, **eigen_values;
+    int m, n, i, number_eigen, j, nu;
+    char *resul = "Resultados/";
+    char bufer[100];
+    strcat(strcpy(bufer, resul), name);
+    printf("%s\n", bufer);
+    FILE *file = fopen(bufer, "w");
 
     matrix = read_matrix_file(name, &m, &n, ZERO);
     *m_c = m;
 
     if(m > 6)
-        filas = m - 6;
+        nu = m - 4;
     else
-        filas = 2;
+        nu = 2;
 
-    xn = (double **)malloc(filas * sizeof(double *));
 
-    for(i = ZERO; i < filas; i++)
-        *(xn + i) = (double *)malloc(m * sizeof(double));
 
-    sol = eigen_dominante(name, &m);
+    eigen_values = (double **)malloc(nu * sizeof(double *));
 
-    for(i = ZERO; i < m; i++)
-        *(*xn + i) = *(*(sol + ONE) + i);
 
-    for(i = ONE; i < filas; i++)
+    for(i = ZERO; i < nu; i++)
+        *(eigen_values + i) = (double *)calloc(m, sizeof(double));
+
+
+    for(j = ZERO; j < nu; j++)
     {
-        xn_temp = eigen_n_mayor(matrix, m, i, xn);
 
-        for(j = ZERO; j < m; j++)
-            *(*(xn + i) + j) = *(xn_temp + i);
+        solucion = eigen_dominante_m(matrix, m, eigen_values, j, normalizar_);
 
-        print_solucion(xn_temp, m);
+        if(solucion == NULL)
+        {
+            fprintf(file, "sin siol\n");
+        }
+        else
+        {
+            fprintf(file, "\tEigenvalor: %lf\n", **solucion);
+            fprintf(file, "\tEigenvector:\n");
+
+        for(i = ZERO; i < m; i++)
+            *(*(eigen_values + j) + i) = *(*(solucion + ONE) + i);
+
+        free_solution_eigen(solucion);
+        }
+
+    fprintf(file, "\t");
+
+    while(i < m)
+    {
+        fprintf(file, "x%d: %lf ", i, *(*(eigen_values + j) + i));
+        i++;
+
+        if(i % 5 == ZERO)
+            fprintf(file, "\n\t");
+    }
+
+    fprintf(file, "\n");
 
     }
 
+    for(i = ZERO; i < nu; i++)
+        free(eigen_values[i]);
 
-    free(xn_temp);
-    free_solution_eigen(sol);
-    free_matrix(matrix, m);
+
+    free(eigen_values);
+
+    fclose(file);
+
 
 }

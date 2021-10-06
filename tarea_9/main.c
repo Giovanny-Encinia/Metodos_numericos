@@ -4,12 +4,13 @@
 #include "potencia_inversa/potencia_inversa.h"
 #include "m_eigenvalores_mayores/m_eigenvalores_mayores.h"
 #include "print_read/prdynamic.h"
+#include "m_eigenvalores_mayores/m_eigenvalores_mayores.h"
 #define ONE 1
 #define ZERO 0
 
-void imprimir_resultado_eigen(char *name, int t, char *name_save)
+void imprimir_resultado_eigen(char *name, int t, char *name_save, int normalizar_)
 {
-    double **solucion, **sol_m, *em;
+    double **solucion, **sol_m;
     int m;
     FILE *file;
 
@@ -34,6 +35,7 @@ void imprimir_resultado_eigen(char *name, int t, char *name_save)
     printf("\t------------------------");
     printf("-----------------------------------------------------------\n");
     sol_m = eigen_menor(name, &m);
+
     printf("\tEigenvalor: %lf\n", **sol_m);
     printf("\tEigenvalor\n");
     print_solucion(*(sol_m + ONE), m);
@@ -42,16 +44,16 @@ void imprimir_resultado_eigen(char *name, int t, char *name_save)
     printf("\n");
 
     printf("\tEigen mayores:\n");
-    eigen_mayores(name, &m, 2);
+    eigen_m(name, &m, normalizar_);
     free_solution_eigen(sol_m);
     free_solution_eigen(solucion);
 }
 
 int main()
 {
-    imprimir_resultado_eigen("Materiales/Eigen_3x3.txt", 3, "Resultados/Eigen_3.txt");
-    imprimir_resultado_eigen("Materiales/Eigen_50x50.txt", 50, "Resultados/Eigen_50.txt");
-    imprimir_resultado_eigen("Materiales/Eigen_125x125.txt", 125, "Resultados/Eigen_125.txt");
+    imprimir_resultado_eigen("Materiales/Eigen_3x3.txt", 3, "Resultados/Eigen_3.txt", 2);
+imprimir_resultado_eigen("Materiales/Eigen_50x50.txt", 50, "Resultados/Eigen_50.txt", 2);
+/*imprimir_resultado_eigen("Materiales/Eigen_125x125.txt", 125, "Resultados/Eigen_125.txt", 0);*/
 
     return ZERO;
 }
