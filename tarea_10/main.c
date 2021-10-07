@@ -69,13 +69,15 @@ void imprimir_resultado_eigen(char *name, char *name_save, int m)
 int main(void)
 {
     /*Archivo de prueba*/
-    imprimir_resultado_eigen("Materiales/Eigen_3x3.txt", "Resultados/_3x3_", 3);
+    /*imprimir_resultado_eigen("Materiales/Eigen_3x3.txt", "Resultados/_3x3_", 3);*/
     /*Archivos para la tarea*/
     /*
     imprimir_resultado_eigen("Materiales/Eigen_3x3.txt", "Resultados/_3x3_", 3);
     imprimir_resultado_eigen("Materiales/Eigen_50x50.txt", "Resultados/_50x50_", 50);
     imprimir_resultado_eigen("Materiales/Eigen_500x500.txt", "Resultados/_500x500_", 500);
     imprimir_resultado_eigen("Materiales/Eigen_1000x1000.txt", "Resultados/_1000x1000_", 1000);*/
+
+    leer("test.txt");
 
     return ZERO;
 }
