@@ -17,9 +17,13 @@
 #endif /*TWO*/
 #define LIMIT 1000000
 #define ERROR 1E-13
-#define DELTA 0.0001
+
 void free_solution_eigen_(double **solution)
 {
+    /*Funcion que ayuda a liberar la memoria
+    creada para almacenar la matriz que contiene
+    los eigenpares*/
+
     free(*(solution));
     free(*(solution + ONE));
     free(solution);
@@ -32,12 +36,18 @@ double **eigen_menor(double **matrix, int m, double **eigen_old , int k)
 
     Parametros
     ===========
-    char *name: el nombre del archivo de donde se leera la matriz
-    int *m_c: variable en donde se alojara el tamanio de la matriz
-    */
-    /*lambda_old al inicio tiene un valor muy grande*/
+    double **matrix: matriz de la que queremos obtner los eigenpares
+    int m: es la dimension de la matriz
+    double **eigen_old: es una variable que guarda los eigenvectores
+    int k: esta variable nos indica el indice del eigenpar que estamos
+    calculando y ayuda como variabla auxiliar a que el algoritmo funcione
 
-    /*double eigen_old[] = {0.999191, 0.027147, 0.029675};*/
+    Return
+    =======
+    double **sol: es una matriz que contiene en su primera fila el eigenvalor
+    y en su segunda fila contiene el eigenvector
+    */
+
     double ai;
     double *x1, *x0, lambda_old = 4000000;
     /*se almacena el eigenvalor y eigenvector*/
@@ -53,25 +63,10 @@ double **eigen_menor(double **matrix, int m, double **eigen_old , int k)
     /*Se crea espacio para el vector inicial*/
     x0 = (double*)calloc(m, sizeof(double));
 
-    /*se inicializa el primer vector, el cual es un vector normalizado*/
-
-
-    if(k > ZERO)
-    {
-        /*el vector cero sera el eigenvector
-        anterior y le agregaremos un incremento pequenio
-        esto para evitar que algun denominador en el calculo
-        del eigenvalor sea cero*/
-        for(i = ZERO; i < m; i++)
-            *(x0 + i) = (*(*(eigen_old + k) + i));
-    }
-    else
-    {
-        /*el primer vectopr inicial del primer eigenvalor(el menor)
-        se inicializa como 1/sqrt(m)*/
-        for(i = ZERO; i < m; i++)
-            *(x0 + i) = ONE/sqrt(m);
-    }
+    /*el primer vectopr inicial del primer eigenvalor(el menor)
+    se inicializa como 1/sqrt(m)*/
+    for(i = ZERO; i < m; i++)
+        *(x0 + i) = ONE/sqrt(m);
 
     x1 = (double *)calloc(m, sizeof(double));
 
@@ -159,6 +154,11 @@ double **eigen_menor(double **matrix, int m, double **eigen_old , int k)
 double **eigen_menores(char *name, int *number, double *eigen_valores, double **eigen_vectores, int m_eigen)
 {
 
+    /*Funcion que puede se vista de manera auxiliar, lo mas importante es el ciclo que hay,
+    y el como se guardan los datos, esta estructura de la funcion es para
+    poder obtener los m eigenpares menores de una matriz mediante deflacion
+    usando el metodo de la potencia inversa*/
+
     int m, n, i, j, number_eigen;
     double **matrix = read_matrix_file(name, &m, &n, ZERO);
     double **sol, **eigen_old, *eigen_values;
@@ -170,51 +170,60 @@ double **eigen_menores(char *name, int *number, double *eigen_valores, double **
     /*el primer elemento de los eigenvectores
     sera el vector 0, asi que se debe tener cuidado*/
     eigen_old = (double **)malloc((number_eigen + ONE) * sizeof(double *));
-    eigen_values = (double *)malloc((number_eigen + ONE) * sizeof(double));
+    eigen_values = (double *)malloc((number_eigen + ONE) * m * sizeof(double));
+
 
     for(i = ZERO; i < number_eigen; i++)
     {
-
+        /*se encuentra el eigenpar*/
         sol = eigen_menor(matrix, m, eigen_old, i);
 
-
-
-
-        if(m < 7)
+        /*imprime en pantalla solo si se el resultado que
+        se dara es pequenio*/
+        if(m < 8)
         {
-            printf("\t|Eigen Menor %5d %71s\n", i,"|");
+            printf("\t|Eigen Menor %5d %64s\n", i,"|");
             printf("\t------------------------");
             printf("-----------------------------------------------------------\n");
             /*posicion cero tiene un eigenvalor*/
             /*0 eigenvalor
             1  {1, 1, 1, 1,...m}*/
             printf("\tEigenvalor: %lf\n", **sol);
-            printf("\t|Eigen Valor %5d %71s\n", i,"|");
+            printf("\t|Eigen Valor %5d %64s\n", i,"|");
             /*solucion uno corresponde a un eigenvector*/
             print_solucion(*(sol + ONE), m);
             printf("\t========================");
             printf("===========================================================\n");
             printf("\n");
         }
-printf("sol %lf\n", **sol);
+        else
+            printf("calculando eigenvalores...\n");
+
+        /*pide memoria para separar eigenvalores y
+        eigenvectores*/
         *(eigen_values + i) = **sol;
         *(eigen_old + i + ONE) = (double *)malloc(m * sizeof(double));
 
+        /*se pasa la solucion a memoria que se pide de una
+        funcion externa*/
         for(j = ZERO; j < m; j++)
            *(*(eigen_old + i + ONE) + j) =  *(*(sol + ONE) + j);
 
-
+        /*sol se crea de manera recurrente con cada eigenpar encontrado
+        asi que se debe de eliminar*/
         free_solution_eigen_(sol);
     }
 
+    /*se guarda la solucion en mmoriia creada desde una funcion externa*/
     for(i = ZERO; i < number_eigen; i++)
     {
         *(eigen_valores + i) = *(eigen_values + i);
     }
 
-
+    /*se elimina la memoria dinamica*/
     free_matrix(matrix, m);
     free(eigen_values);
 
+    printf("Proceso terminado con exito\n");
     return eigen_old;
 }
