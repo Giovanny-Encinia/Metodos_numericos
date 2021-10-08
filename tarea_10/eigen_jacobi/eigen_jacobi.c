@@ -43,8 +43,10 @@ void mayor_absoluto(double **matrix, int m, int *i, int *j)
             {
                 if(fabs(*(*(matrix + k) + l)) >= mayor)
                 {
-                    *i = k;
-                    *j = l;
+                    /*los indices correspoonden al elemento mas cercano
+                    a la primera fila*/
+                    *i = l;
+                    *j = k;
                     mayor = fabs(*(*(matrix + k) + l));
                 }
             }
@@ -70,8 +72,8 @@ double **eigen_jacobi(double **matrix, int m)
     de la matriz*/
 
     int i, j, k, l, r, iteration = ZERO;
-    double theta, **eigenvectores, cik, cjk;
-    double s, c, s2, c2, numerador, denominador, cij;
+    double theta, **eigenvectores, cik, cjk, cii, cjj;
+    double s, c, s2, c2, numerador, denominador, cij, eli, elj;
 
     /*se pide memoria para la matriz que contendra los eigenvectores*/
     eigenvectores = (double **)malloc(m * sizeof(double *));
@@ -86,16 +88,15 @@ double **eigen_jacobi(double **matrix, int m)
 
     while(fabs(*(*(matrix + i) + j)) > ERROR)
     {
-        printf("valor %lf\n", *(*(matrix + i) + j));
         /*Calculo del angulo*/
-        numerador = *(*(matrix + i) + j);
-        denominador = *(*(matrix + i) + i) -  *(*(matrix + j) + j);
+        numerador = (*(*(matrix + i) + j)) * 2.;
+        denominador = (*(*(matrix + i) + i)) -  (*(*(matrix + j) + j));
 
         /*si matrix_{ii} = matrix_{j,j} theta es pi/4*/
-        if(denominador < ERROR)
+        if(denominador < 1E-11)
             theta = MPI / 4.;
         else
-            theta = atan(numerador / denominador) / 2.;
+            theta = atan(numerador / denominador) * 0.5;
 
         /*se calculan las funciones senoidales necesarias*/
         s = sin(theta);
@@ -103,13 +104,16 @@ double **eigen_jacobi(double **matrix, int m)
         s2 = s * s;
         c2 = c * c;
 
-        *(*(matrix + i) + i) = (*(*(matrix + i) + i)) * c2 +\
-         2. * (*(*(matrix + i) + j)) * s * c + (*(*(matrix + j) + j)) * s2;
-        *(*(matrix + j) + j) = (*(*(matrix + i) + i)) * s2 - \
-         2. * (*(*(matrix + i) + j)) * s * c + (*(*(matrix + j) + j)) * c2;
+        /*cii*/
+        cii = (*(*(matrix + i) + i)) * c2 + 2. * (*(*(matrix + i) + j)) * s * c + (*(*(matrix + j) + j)) * s2;
+        /*cjj*/
+        cjj = (*(*(matrix + i) + i)) * s2 - 2. * (*(*(matrix + i) + j)) * s * c + (*(*(matrix + j) + j)) * c2;
+        /*cij*/
         cij = ((*(*(matrix + j) + j)) - (*(*(matrix + i) + i))) * s * c +\
         (*(*(matrix + i) + j)) * (c2 - s2);
         *(*(matrix + i) + j) = *(*(matrix + j) + i) = cij;
+        *(*(matrix + j) + j) = cjj;
+        *(*(matrix + i) + i) = cii;
 
 
 
@@ -129,6 +133,8 @@ double **eigen_jacobi(double **matrix, int m)
             }
 
         }
+
+
 
         /*aqui se realizan los calculos de la matriz con eigenvectores
         con cada iteracion esta se actualiza*/
@@ -160,8 +166,10 @@ double **eigen_jacobi(double **matrix, int m)
             siguiente manera la matriz con eigenvectores*/
             for(l = ZERO; l < m; l++)
             {
-                *(*(eigenvectores + l) + i) = (*(*(eigenvectores + l) + i)) * c + (*(*(eigenvectores + l) + j)) * s;
-                *(*(eigenvectores + l) + j) = -(*(*(eigenvectores + l) + i)) * s + (*(*(eigenvectores + l) + j)) * c;
+                eli = (*(*(eigenvectores + l) + i)) * c + (*(*(eigenvectores + l) + j)) * s;
+                elj =  -(*(*(eigenvectores + l) + i)) * s + (*(*(eigenvectores + l) + j)) * c;
+                *(*(eigenvectores + l) + i) = eli;
+                *(*(eigenvectores + l) + j) = elj;
             }
 
         }
@@ -171,7 +179,7 @@ double **eigen_jacobi(double **matrix, int m)
         iteration++;
     }
 
-    printf("El mayor elemento es %.15lf\n", *(*(matrix + i) + j));
+    printf("El numero de iteraciones es: %d\n", iteration);
     return eigenvectores;
 }
 
@@ -192,6 +200,8 @@ void leer(char *name)
 
 
     print_matrix(matrix, m, m);
+    printf("\n\n");
+    print_matrix(eigenvectores, m, m);
     /*se libera la memoria*/
     free_matrix(matrix, m);
     free_matrix(eigenvectores, m);

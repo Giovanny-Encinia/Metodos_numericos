@@ -77,7 +77,7 @@ int main(void)
     imprimir_resultado_eigen("Materiales/Eigen_500x500.txt", "Resultados/_500x500_", 500);
     imprimir_resultado_eigen("Materiales/Eigen_1000x1000.txt", "Resultados/_1000x1000_", 1000);*/
 
-    leer("test.txt");
+    leer("Materiales/Eigen_3x3.txt");
 
     return ZERO;
 }
