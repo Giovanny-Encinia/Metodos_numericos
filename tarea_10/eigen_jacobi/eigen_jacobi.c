@@ -76,7 +76,7 @@ double **eigen_jacobi(double **matrix, int m)
     double s, c, s2, c2, numerador, denominador, cij, eli, elj;
 
     /*se pide memoria para la matriz que contendra los eigenvectores*/
-    eigenvectores = (double **)malloc(m * sizeof(double *));
+    eigenvectores = (double **)calloc(m, sizeof(double *));
     *eigenvectores = (double*)calloc(m * m, sizeof(double));
 
     /*matriz guardada en forma de vector*/
@@ -181,28 +181,4 @@ double **eigen_jacobi(double **matrix, int m)
 
     printf("El numero de iteraciones es: %d\n", iteration);
     return eigenvectores;
-}
-
-void leer(char *name)
-{
-    /*Lee una matriz en txt y retorna una matriz creada dinamicamente*/
-
-    int m, n;
-    double **matrix, **eigenvectores;
-
-    /*la matriz se guarda como un vector, pero se
-    puede acceder de manera estandar a cada uno de sus elementos*/
-    matrix = read_matrix_file(name, &m, &n, ZERO);
-    /*ademas de que regresa la matriz con eigenvectores
-    la variable matrix debe de contener en su diagonal los
-    eigenvalores*/
-    eigenvectores = eigen_jacobi(matrix, m);
-
-
-    print_matrix(matrix, m, m);
-    printf("\n\n");
-    print_matrix(eigenvectores, m, m);
-    /*se libera la memoria*/
-    free_matrix(matrix, m);
-    free_matrix(eigenvectores, m);
 }

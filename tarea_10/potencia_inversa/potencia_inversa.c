@@ -169,7 +169,7 @@ double **eigen_menores(char *name, int *number, double *eigen_valores, double **
     /*se crea memoria para los eigenvectores*/
     /*el primer elemento de los eigenvectores
     sera el vector 0, asi que se debe tener cuidado*/
-    eigen_old = (double **)malloc((number_eigen + ONE) * sizeof(double *));
+    eigen_old = (double **)malloc((number_eigen + ONE) * m * sizeof(double *));
     eigen_values = (double *)malloc((number_eigen + ONE) * m * sizeof(double));
 
 
@@ -182,18 +182,18 @@ double **eigen_menores(char *name, int *number, double *eigen_valores, double **
         se dara es pequenio*/
         if(m < 8)
         {
-            printf("\t|Eigen Menor %5d %64s\n", i,"|");
-            printf("\t------------------------");
-            printf("-----------------------------------------------------------\n");
+            printf("|Eigen Menor %5d %59s\n", i,"|");
+            printf("------------------------");
+            printf("-------------------------------------------------------\n");
             /*posicion cero tiene un eigenvalor*/
             /*0 eigenvalor
             1  {1, 1, 1, 1,...m}*/
-            printf("\tEigenvalor: %lf\n", **sol);
-            printf("\t|Eigen Valor %5d %64s\n", i,"|");
+            printf("Eigenvalor: %lf\n", **sol);
+            printf("|Eigen Valor %5d %59s\n", i,"|");
             /*solucion uno corresponde a un eigenvector*/
             print_solucion(*(sol + ONE), m);
-            printf("\t========================");
-            printf("===========================================================\n");
+            printf("========================");
+            printf("=======================================================\n");
             printf("\n");
         }
         else
@@ -202,7 +202,7 @@ double **eigen_menores(char *name, int *number, double *eigen_valores, double **
         /*pide memoria para separar eigenvalores y
         eigenvectores*/
         *(eigen_values + i) = **sol;
-        *(eigen_old + i + ONE) = (double *)malloc(m * sizeof(double));
+        *(eigen_old + i + ONE) = (double *)calloc(m, sizeof(double));
 
         /*se pasa la solucion a memoria que se pide de una
         funcion externa*/
