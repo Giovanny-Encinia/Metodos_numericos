@@ -1,7 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
+#include "../print_read/prdynamic.h"
+#ifndef ZERO
 #define ZERO 0
+#endif /* ZERO*/
+#ifndef ONE
 #define ONE 1
+#endif /* ONE*/
+#ifndef ERROR
+#define ERROR 1E-18
+#endif // ERROR
+#ifndef MPI
+#define MPI 3.14159265358979323846
+#endif
 
 void mayor_absoluto(double **matrix, int m, int *i, int *j)
 {
@@ -20,7 +32,7 @@ void mayor_absoluto(double **matrix, int m, int *i, int *j)
     int k, l;
     double mayor;
 
-    mayor = *(*(matrix) + ONE);
+    mayor = fabs(*(*(matrix) + ONE));
 
     for(k = ZERO; k < m; k++)
     {
@@ -29,16 +41,17 @@ void mayor_absoluto(double **matrix, int m, int *i, int *j)
             /*ignoramos los elementos de la diagonal*/
             if(k != l)
             {
-                if(*(*(matrix + k) + l) >= mayor)
+                if(fabs(*(*(matrix + k) + l)) >= mayor)
                 {
                     *i = k;
                     *j = l;
-                    mayor = *(*(matrix + k) + l);
+                    mayor = fabs(*(*(matrix + k) + l));
                 }
             }
 
         }
     }
+
 }
 
 double **eigen_jacobi(double **matrix, int m)
@@ -56,11 +69,110 @@ double **eigen_jacobi(double **matrix, int m)
     double **eigenvectores: retorna una matriz con los eigenvectores como columnas
     de la matriz*/
 
-    int i, j;
+    int i, j, k, l, r, iteration = ZERO;
+    double theta, **eigenvectores, cik, cjk;
+    double s, c, s2, c2, numerador, denominador, cij;
 
+    /*se pide memoria para la matriz que contendra los eigenvectores*/
+    eigenvectores = (double **)malloc(m * sizeof(double *));
+    *eigenvectores = (double*)calloc(m * m, sizeof(double));
+
+    /*matriz guardada en forma de vector*/
+    for(r = ONE; r < m; r++)
+        *(eigenvectores + r) = *(eigenvectores + r - ONE) + m;
+
+    /*se buscan los indices del elemento mayor absoluto*/
     mayor_absoluto(matrix, m, &i, &j);
 
-    printf("El mayor elemento es %lf\n", *(*(matrix + i) + j));
+    while(fabs(*(*(matrix + i) + j)) > ERROR)
+    {
+        printf("valor %lf\n", *(*(matrix + i) + j));
+        /*Calculo del angulo*/
+        numerador = *(*(matrix + i) + j);
+        denominador = *(*(matrix + i) + i) -  *(*(matrix + j) + j);
+
+        /*si matrix_{ii} = matrix_{j,j} theta es pi/4*/
+        if(denominador < ERROR)
+            theta = MPI / 4.;
+        else
+            theta = atan(numerador / denominador) / 2.;
+
+        /*se calculan las funciones senoidales necesarias*/
+        s = sin(theta);
+        c = cos(theta);
+        s2 = s * s;
+        c2 = c * c;
+
+        *(*(matrix + i) + i) = (*(*(matrix + i) + i)) * c2 +\
+         2. * (*(*(matrix + i) + j)) * s * c + (*(*(matrix + j) + j)) * s2;
+        *(*(matrix + j) + j) = (*(*(matrix + i) + i)) * s2 - \
+         2. * (*(*(matrix + i) + j)) * s * c + (*(*(matrix + j) + j)) * c2;
+        cij = ((*(*(matrix + j) + j)) - (*(*(matrix + i) + i))) * s * c +\
+        (*(*(matrix + i) + j)) * (c2 - s2);
+        *(*(matrix + i) + j) = *(*(matrix + j) + i) = cij;
+
+
+
+        /*con base a lo encontrado en la teoria, esto afecta a filas i, j
+        esto es para actualizar elementos de la nueva matriz*/
+        for(k = ZERO; k < m; k++)
+        {
+
+            if(k != i && k != j)
+            {
+                /*ecuaciones encontradas mediante la teoria*/
+                cik = (*(*(matrix + i) + k)) * c + (*(*(matrix + j) + k)) * s;
+                cjk = -(*(*(matrix + i) + k)) * s + (*(*(matrix + j) + k)) * c;
+
+                (*(*(matrix + i) + k)) = (*(*(matrix + k) + i)) = cik;
+                (*(*(matrix + j) + k)) = (*(*(matrix + k) + j)) = cjk;
+            }
+
+        }
+
+        /*aqui se realizan los calculos de la matriz con eigenvectores
+        con cada iteracion esta se actualiza*/
+        /*si es la primera iteration nuestra primera aproximacion, simplemente
+        sera la primera matriz de rotacion*/
+        if(iteration == ZERO)
+        {
+            /*1's en la diagonal*/
+            for(l = ZERO; l < m; l++)
+            {
+
+                for(k = ZERO; k < m; k++)
+                {
+                    if(l == k)
+                        *(*(eigenvectores + l) + k) = ONE;
+                }
+
+             }
+
+             /*se agregan valores para crear la matriz de rotacion*/
+             *(*(eigenvectores + i) + i) = *(*(eigenvectores + j) + j) = c;
+             *(*(eigenvectores + i) + j) = -s;
+             *(*(eigenvectores + j) + i) = s;
+        }
+        else
+        {
+
+            /*si no estamos en la primera iteracion entonces se calcula de la
+            siguiente manera la matriz con eigenvectores*/
+            for(l = ZERO; l < m; l++)
+            {
+                *(*(eigenvectores + l) + i) = (*(*(eigenvectores + l) + i)) * c + (*(*(eigenvectores + l) + j)) * s;
+                *(*(eigenvectores + l) + j) = -(*(*(eigenvectores + l) + i)) * s + (*(*(eigenvectores + l) + j)) * c;
+            }
+
+        }
+
+        /*se buscan los indices del nuevo mayor valor absoluto*/
+        mayor_absoluto(matrix, m, &i, &j);
+        iteration++;
+    }
+
+    printf("El mayor elemento es %.15lf\n", *(*(matrix + i) + j));
+    return eigenvectores;
 }
 
 void leer(char *name)
@@ -73,6 +185,14 @@ void leer(char *name)
     /*la matriz se guarda como un vector, pero se
     puede acceder de manera estandar a cada uno de sus elementos*/
     matrix = read_matrix_file(name, &m, &n, ZERO);
+    /*ademas de que regresa la matriz con eigenvectores
+    la variable matrix debe de contener en su diagonal los
+    eigenvalores*/
     eigenvectores = eigen_jacobi(matrix, m);
+
+
+    print_matrix(matrix, m, m);
+    /*se libera la memoria*/
     free_matrix(matrix, m);
+    free_matrix(eigenvectores, m);
 }

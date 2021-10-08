@@ -243,6 +243,8 @@ double **read_matrix_file(char *name, int *m_c , int *n_c, int type_matrix)
 
     *(matrix) = (double*)malloc(factor * sizeof(double));
 
+
+
     /*divide in blocks , analogue to rows*/
     while(i < m)
     {
