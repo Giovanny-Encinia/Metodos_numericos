@@ -6,16 +6,18 @@
 #include "../matrix_math/matrix_math.h"
 #include "../print_read/prdynamic.h"
 #define ERROR 1E-13
+#define LIMITE 20
 
 double **subespacio(double **matrix, int m, int number_eigen, double **eigen_valores_)
 {
-    int i, j, condition = 1, number;
+    int i, j, condition = 1, number, iteration = ZERO;
     double **eigenvectores, **eigen_temp, **eigen_traspuesta;
     double *evalues, **Q, **Q_t, **LU, **Qtemp, **eigen_valores;
+    double **der, **izq;
 
     eigen_traspuesta = NULL;
 
-    while(condition)
+    while(condition && iteration < LIMITE)
     {
         /*los eigenvectores estan por filas,
         es como si regresara el resultado como una traspuesta*/
@@ -28,13 +30,21 @@ double **subespacio(double **matrix, int m, int number_eigen, double **eigen_val
         eigenvectores = traspuesta(eigen_traspuesta, number_eigen, m);
         /*con base a la teoria, este seria nuestra matriz B*/
         eigen_valores = dot_matrix(eigen_temp, eigenvectores, number_eigen, m, m, number_eigen);
+        der = dot_matrix(matrix, eigenvectores, m, m, m, number_eigen);
+        izq = dot_matrix(eigenvectores, eigen_valores, m, number_eigen, number_eigen, number_eigen);
+        condition = compara_matrices(der, izq, m, number_eigen, 1E-6);
+        printf("cond %d\n", condition);
+        free(der[0]);
+        free(der);
+        free(izq[0]);
+        free(izq);
         /*se libera la memoria de variables auxiliares*/
-        
         free(eigen_temp[0]);
         free(eigen_temp);
         
+        
         /*Se revisa que la matriz se halla diagonalizado*/
-        for(i = ZERO; i < number_eigen; i++)
+        /*for(i = ZERO; i < number_eigen; i++)
         {
             for(j = ZERO; j < number_eigen; j++)
             {
@@ -47,19 +57,25 @@ double **subespacio(double **matrix, int m, int number_eigen, double **eigen_val
                 }
             }
 
-        }
+        }*/
         
         /*la matriz ha sido diagonalizada, termina el ciclo*/
-        if(!condition)
-            break;
+        if(condition || iteration >= LIMITE - ONE){printf("sale\n");
+            break;}
 
         /*Se trata de diagonalizar la matriz B: eigen_valores*/
         Q = eigen_jacobi(eigen_valores, number_eigen);
+        printf("vectores\n");
+        print_matrix(eigenvectores, m, number_eigen);
+        printf("valores\n");
+        print_matrix(eigen_valores , number_eigen, number_eigen);
+        printf("Q\n");
+        print_matrix(Q, number_eigen, number_eigen);
         /*se elimina la memoria dinamica que se pide
         en eigen_valores*/
         free(eigen_valores[0]);
         free(eigen_valores);
-        /*error de segmentacion!!!!!!!*/
+        
         Q_t = traspuesta(Q, number_eigen, number_eigen);
         /*con esto se actualizara el nuevo vector*/
         Qtemp = dot_matrix(Q_t, eigen_traspuesta, number_eigen, number_eigen, number_eigen, m);
@@ -79,7 +95,11 @@ double **subespacio(double **matrix, int m, int number_eigen, double **eigen_val
 
         free(Qtemp[0]);
         free(Qtemp);
+        iteration++;
     }
+
+    printf("valores salida\n");
+    print_matrix(eigen_valores, number_eigen, number_eigen);
 
     /*se copian los elementos de los eigenvalores*/
     for(i = ZERO; i < number_eigen; i++)
@@ -87,6 +107,8 @@ double **subespacio(double **matrix, int m, int number_eigen, double **eigen_val
         for(j = ZERO; j < number_eigen; j++)
             *(*(eigen_valores_ + i) + j) = *(*(eigen_valores + i) + j);
     }
+
+    
     free(eigen_traspuesta[0]);
     free(eigen_traspuesta);
     free(eigen_valores[0]);

@@ -13,6 +13,31 @@
 #define TWO 2
 #endif /*TWO*/
 
+int compara_matrices(double **a, double **b, int m, int n, double error)
+{
+    /*funcion que compara elemento a elemento si dos matrices son 
+    similares*/
+
+    int i, j, condition;
+
+    for(i = ZERO; i < m; i++)
+    {
+        for(j = ZERO; j < n; j++)
+        {
+            if(fabs(*(*(a + i) + j) - *(*(b + i) + j)) < error)
+                condition = ONE; 
+            else
+                condition = ZERO;
+        }
+    }
+
+    if(condition)
+        return ONE;
+    else
+        return ZERO;
+
+}
+
 double **traspuesta(double **matrix, int m, int n)
 {   
     /*Funcion que realiza la traspuesta de una matriz, 
@@ -230,4 +255,59 @@ double *dot(double **a, double *b, int m, int n)
     }
 
     return result;
+}
+
+void ortononormalizar(double **vectores, int m, int n)
+{
+    /*Funcion que ortogonaliza un conjunto de vectores, estos se encuentran
+    en una matriz, cada vector forma la fila de la matriz
+    asi que se debe de manejar con cuidado, la ortogonalizacion se guarda
+    en la misma matriz de entrada*/
+
+    int i, j, k;
+    double **temporal, *contribution, factor;
+
+    /*Existen m vectores de dimension n*/
+    temporal = (double **)malloc(m * sizeof(double *));
+    *temporal = (double *)malloc(m * n * sizeof(double));
+
+    for (i = ONE; i < n; i++)
+        *(temporal + i) = *(temporal + i - ONE) + m;
+
+    /*u1 = v1, asi se inicia gramschmidt*/
+    for (i = ZERO; i < n; i++)
+        *(*temporal + i) = *(*vectores + i);
+
+    for (i = ONE; i < m; i++)
+    {
+        contribution = (double *)calloc(n, sizeof(double));
+
+        for (k = ZERO; k < i; k++)
+        {
+            factor = dot_vector(*(vectores + i), *(temporal + k), n) /
+                     dot_vector(*(temporal + k), *(temporal + k), n);
+
+            for (j = ZERO; j < n; j++)
+            {
+                *(contribution + j) += factor * *(*(temporal + k) + j);
+            }
+        }
+
+        for (j = ZERO; j < n; j++)
+        {
+            *(*(temporal + i) + j) = *(*(vectores + i) + j) - *(contribution + j);
+        }
+
+        /*se libera con el fin de reiniciar la variable*/
+        free(contribution);
+    }
+
+    for (i = ZERO; i < m; i++)
+    {
+        for (j = ZERO; j < n; j++)
+            *(*(vectores + i) + j) = *(*(temporal + i) + j);
+    }
+
+    free(*temporal);
+    free(temporal);
 }

@@ -73,7 +73,7 @@ double **eigen_jacobi(double **matrix, int m)
     de la matriz
     la variable matrix contiene los eigenvalores, en su diagonal*/
 
-    int i, j, k, l, r, iteration = ZERO;
+    int i, j, k, l, r, iteration = ZERO, z;
     double theta, **eigenvectores, cik, cjk, cii, cjj;
     double s, c, s2, c2, numerador, denominador, cij, eli, elj;
 
@@ -87,6 +87,12 @@ double **eigen_jacobi(double **matrix, int m)
 
     /*se buscan los indices del elemento mayor absoluto*/
     mayor_absoluto(matrix, m, &i, &j);
+
+    if(fabs(*(*(matrix + i) + j)) < ERROR)
+    {
+        for(z = ZERO; z < m; z++)
+            *(*(eigenvectores + z) + z) = ONE;
+    }
 
     while(fabs(*(*(matrix + i) + j)) > ERROR)
     {

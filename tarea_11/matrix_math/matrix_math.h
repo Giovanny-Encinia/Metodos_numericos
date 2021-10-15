@@ -12,6 +12,8 @@
 #ifndef TWO
 #define TWO 2
 #endif /*TWO*/
+void ortononormalizar(double **vectores, int m, int n);
+int compara_matrices(double **a, double **b, int m, int n, double error);
 double **traspuesta(double **matrix, int m, int n);
 void producto_escalar(double a, double *x, int m);
 void vector_rest(double *x, double *y, int m);
