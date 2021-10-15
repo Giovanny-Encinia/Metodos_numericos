@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <math.h>
+#include <stdio.h>
 #ifndef ZERO
 #define ZERO 0
 #endif /*ZERO*/
@@ -11,6 +12,122 @@
 #ifndef TWO
 #define TWO 2
 #endif /*TWO*/
+
+double **traspuesta(double **matrix, int m, int n)
+{   
+    /*Funcion que realiza la traspuesta de una matriz, 
+    regresa una nueva matriz
+
+    int m: es el numero de filas de la matriz original
+    int n: es el numero de columnas de la matriz original
+    */
+   
+    int i, j;
+    double **tras;
+
+    tras = (double **)malloc(n * sizeof(double * ));
+    *tras = (double *)malloc(m * n * sizeof(double));
+    
+    for (i = ONE; i < n; i++)
+        *(tras + i) = *(tras + i - ONE) + m;
+    
+    for(i = ZERO; i < n; i++)
+    {
+        for(j = ZERO; j < m; j++)
+        {
+            *(*(tras + i) + j) = *(*(matrix + j) + i);
+        }
+    }
+
+    return tras;
+}
+
+double **dot_matrix(double **a, double **b, int m, int n, int p, int q)
+{
+    /*Funcion que realiza el producto punto entre dos matrices,
+    la nueva matriz se crea de manera dinamica y debe ser libereda como
+    free_matrix(), o free(matrix[0]); free(matrix);
+    
+    Parametros
+    ==========
+    double **a: primer matriz, a la izquierda
+    double **b: segunda matriz, a la derecha
+    int m: filas de la matriz a
+    int n: filas de la matriz b
+    int p: filas de la matriz p
+    int q: filas de la matriz q
+    
+    Return:
+    ========
+    Regresa una nueva matriz de dimension mxq c*/
+
+    int i, j, k;
+    double **c, sum;
+    
+    /*la nueva matriz debe de ser de tamanio mxq*/
+
+    c = (double **)malloc(m * sizeof(double *));
+    *c = (double *)malloc(m * q * sizeof(double));
+
+    for (i = ONE; i < m; i++)
+        *(c + i) = *(c + i - ONE) + q;
+
+    if(n == p)
+    {   
+        for(i = ZERO; i < m; i++)
+        {
+            
+            for(j = ZERO; j < q; j++)
+            {
+                sum = ZERO;
+
+                /*realiza la multiplicacion elemento a elemento
+                de la fila contra la columna*/
+                for(k = ZERO; k < p; k++)
+                    sum += (*(*(a + i) + k)) * (*(*(b + k) + j));
+                
+                *(*(c + i) + j) = sum;
+            }
+        }
+    }
+    else
+    {
+        printf("No se puede multiplicar");
+        return NULL;
+    }
+
+    return c;
+
+}
+double **copy_matrix(double **matrix, int m, int n)
+{
+    /*Funcion que copia una matriz, la nueva matriz
+    es en realidad un arreglo en el que se puede acceder 
+    de manera estandar a como se accede una matriz
+    
+    Parametros
+    ==========
+    double **matrix: es la matriz que se va a copiar
+    int m: son las filas de la matriz
+    int n: son las columnas de la matriz*/
+
+    int i, j;
+    double **copy;
+
+    copy = (double **)malloc(m * sizeof(double *));
+    *copy = (double *)malloc(m * n * sizeof(double));
+
+    for(i = ONE; i < m; i++)
+        *(copy + i) = *(copy + i - ONE) + n;
+
+    for(i = ZERO; i < m; i++)
+    {
+        for(j = ZERO; j < n; j++)
+            *(*(copy + i) + j) = *(*(matrix + i) + j);
+    }
+
+    return copy;
+}
 
 void producto_escalar(double a, double *x, int m)
 {
@@ -84,8 +201,6 @@ void normalizar_vector(double *vector, int m)
     }
 
 }
-
-
 
 double *dot(double **a, double *b, int m, int n)
 {
