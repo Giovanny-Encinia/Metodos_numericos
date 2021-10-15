@@ -56,15 +56,15 @@ double **eigen_menor(double **matrix, int m, double **eigen_old , int k, int sub
     double **sol = (double **)malloc(TWO * sizeof(double *));
     double numerador, denominador;
     int iteration = ZERO, value, i, j;
-
+    
     /*el primer elemento de la matriz sol contiene el eigenvalor*/
     *sol = (double*)malloc(sizeof(double));
     *(sol + ONE) = (double*)malloc(m * sizeof(double));
     /*Se crea espacio para el vector inicial*/
     x0 = (double*)calloc(m, sizeof(double));
-
+    
     if(subespacio)
-    {
+    {/*Aqui hay un problema segmentacion!!!!!*/
         for(i = ZERO; i < m; i++)
             *(x0 + i) = *(*(eigen_old + k) + i);
 
@@ -77,7 +77,7 @@ double **eigen_menor(double **matrix, int m, double **eigen_old , int k, int sub
             *(x0 + i) = ONE/sqrt(m);
     }
     x1 = (double *)calloc(m, sizeof(double));
-
+    
     while(iteration < LIMIT)
     {
 
@@ -138,10 +138,10 @@ double **eigen_menor(double **matrix, int m, double **eigen_old , int k, int sub
             /*liberamos la memoria de x0*/
             free(x0);
             /*liberamos la matriz que se aha creado*/
-
+            
             return sol;
         }
-
+        
         /*se actualiza lammbda old*/
 
         lambda_old = **(sol);
@@ -166,7 +166,6 @@ double **eigen_menor(double **matrix, int m, double **eigen_old , int k, int sub
             
             free(x1);
             free(x0);
-
             return sol;
         }
     }
@@ -189,15 +188,16 @@ double **eigen_menores(double **matrix, int m, int n, int *number, double *eigen
     int i, j, number_eigen;
     double **sol, **eigen_old, *eigen_values;
     /*archivo Resultados/Materiales/....txt*/
-
+    
     number_eigen = m_eigen;
     *number = number_eigen + ONE;
     /*se crea memoria para los eigenvectores*/
     /*el primer elemento de los eigenvectores
     sera el vector 0, asi que se debe tener cuidado*/
-
+    
     if(eigenvectores == NULL)
     {
+        
         eigen_old = (double **)calloc((number_eigen) * m , sizeof(double *));
         
         for(i = ZERO; i < number_eigen; i++)
@@ -208,8 +208,9 @@ double **eigen_menores(double **matrix, int m, int n, int *number, double *eigen
         for(i = ZERO; i < number_eigen; i++)
             *(*(eigen_old + i) + i) = ONE;
     }
+    else
+        eigen_old = eigenvectores;
     
-
     eigen_values = (double *)malloc((number_eigen) * m * sizeof(double));
 
     
@@ -217,7 +218,7 @@ double **eigen_menores(double **matrix, int m, int n, int *number, double *eigen
     {
         /*se encuentra el eigenpar*/
         sol = eigen_menor(matrix, m, eigen_old, i, subespacio);
-
+        
         /*imprime en pantalla solo si se el resultado que
         se dara es pequenio*/
         if(m < 8 && !subespacio)
@@ -253,7 +254,7 @@ double **eigen_menores(double **matrix, int m, int n, int *number, double *eigen
         free_solution_eigen_(sol);
         
     }
-    
+
     /*se guarda la solucion en mmoriia creada desde una funcion externa*/
     if(!subespacio)
     {
@@ -261,11 +262,11 @@ double **eigen_menores(double **matrix, int m, int n, int *number, double *eigen
             *(eigen_valores + i) = *(eigen_values + i);
 
     }
-
+    
     /*se elimina la memoria dinamica*/
     free_matrix(matrix, m);
     free(eigen_values);
 
-    printf("Proceso terminado con exito\n");
+    printf("Proceso terminado con exito>>>>>>>>>>>>\n");
     return eigen_old;
 }

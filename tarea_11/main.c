@@ -8,6 +8,7 @@
 #ifndef ZERO
 #define ZERO 0
 #endif/*ZERO*/
+#define NU 5
 
 int main(void)
 {
@@ -15,7 +16,11 @@ int main(void)
     int i, m, n;
     double **eigenvectores, **eigenvalores;
 
-    eigenvalores = NULL;
+    eigenvalores = (double **)malloc(NU * sizeof(double *));
+    *eigenvalores = (double *)malloc(NU * NU * sizeof(double ));
+
+    for(i = ONE; i < NU; i++)
+        *(eigenvalores + i) = *(eigenvalores + i - ONE) + NU;
 
     matrix = read_matrix_file("Materiales/test.txt", &m, &n, ZERO);
     /*eigenvector = (double *)calloc(m, sizeof(double));
@@ -35,12 +40,11 @@ int main(void)
     free(eigenvector);
     */
     
-    eigenvectores = subespacio(matrix, m, 2, eigenvalores);
+    eigenvectores = subespacio(matrix, m, NU, eigenvalores);
+    print_matrix(eigenvalores, NU, NU);
 
     free(eigenvalores[0]);
     free(eigenvalores);
-    free_matrix(eigenvectores, 2);
- 
-    
+    free_matrix(eigenvectores, NU);
     free_matrix(matrix, m);
 }

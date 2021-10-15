@@ -5,19 +5,18 @@
 #include "../potencia_inversa/potencia_inversa.h"
 #include "../matrix_math/matrix_math.h"
 #include "../print_read/prdynamic.h"
-#define ERROR 1E-11
+#define ERROR 1E-13
 
-double **subespacio(double **matrix, int m, int number_eigen, double **eigen_valores)
+double **subespacio(double **matrix, int m, int number_eigen, double **eigen_valores_)
 {
     int i, j, condition = 1, number;
     double **eigenvectores, **eigen_temp, **eigen_traspuesta;
-    double *evalues, **Q, **Q_t, **LU;
+    double *evalues, **Q, **Q_t, **LU, **Qtemp, **eigen_valores;
 
     eigen_traspuesta = NULL;
 
     while(condition)
     {
-        
         /*los eigenvectores estan por filas,
         es como si regresara el resultado como una traspuesta*/
         LU = copy_matrix(matrix, m, m);
@@ -49,35 +48,49 @@ double **subespacio(double **matrix, int m, int number_eigen, double **eigen_val
             }
 
         }
-
+        
         /*la matriz ha sido diagonalizada, termina el ciclo*/
         if(!condition)
             break;
-        
+
+        /*Se trata de diagonalizar la matriz B: eigen_valores*/
         Q = eigen_jacobi(eigen_valores, number_eigen);
-        Q_t = traspuesta(Q, m, m);
-        /*!!!!aqui hay un problema de segmentacion*/
-        eigen_temp = dot_matrix(Q_t, eigen_traspuesta, number_eigen, m, m, m);
-        printf("funciona\n");
+        /*se elimina la memoria dinamica que se pide
+        en eigen_valores*/
+        free(eigen_valores[0]);
+        free(eigen_valores);
+        /*error de segmentacion!!!!!!!*/
+        Q_t = traspuesta(Q, number_eigen, number_eigen);
+        /*con esto se actualizara el nuevo vector*/
+        Qtemp = dot_matrix(Q_t, eigen_traspuesta, number_eigen, number_eigen, number_eigen, m);
+        free(Q[0]);
+        free(Q);
+        
         free(Q_t[0]);
         free(Q_t);
-
+        
+        /*se actualiza el valor del eigenvector, una mejor
+        aproximacion*/
         for(i = ZERO; i < number_eigen; i++)
         {
             for(j = ZERO; j < m; j++)
-                *(*(eigen_traspuesta + i) + j) = *(*(eigen_temp + i) + j);
+                *(*(eigen_traspuesta + i) + j) = *(*(Qtemp + i) + j);
         }
 
-        free(eigen_temp[0]);
-        free(eigen_temp);
+        free(Qtemp[0]);
+        free(Qtemp);
     }
 
-    print_matrix(eigen_valores, number_eigen, number_eigen);
-
-    free(eigen_valores[0]);
-    free(eigen_valores);
+    /*se copian los elementos de los eigenvalores*/
+    for(i = ZERO; i < number_eigen; i++)
+    {
+        for(j = ZERO; j < number_eigen; j++)
+            *(*(eigen_valores_ + i) + j) = *(*(eigen_valores + i) + j);
+    }
     free(eigen_traspuesta[0]);
     free(eigen_traspuesta);
+    free(eigen_valores[0]);
+    free(eigen_valores);
 
     return eigenvectores;
 }
