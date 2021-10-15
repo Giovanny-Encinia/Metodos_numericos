@@ -220,7 +220,7 @@ double **eigen_menores(double **matrix, int m, int n, int *number, double *eigen
 
         /*imprime en pantalla solo si se el resultado que
         se dara es pequenio*/
-        if(m < 8)
+        if(m < 8 && !subespacio)
         {
             printf("|Eigen Menor %5d %59s\n", i,"|");
             printf("------------------------");
@@ -255,11 +255,13 @@ double **eigen_menores(double **matrix, int m, int n, int *number, double *eigen
     }
     
     /*se guarda la solucion en mmoriia creada desde una funcion externa*/
-    for(i = ZERO; i < number_eigen; i++)
+    if(!subespacio)
     {
-        *(eigen_valores + i) = *(eigen_values + i);
+        for(i = ZERO; i < number_eigen; i++)
+            *(eigen_valores + i) = *(eigen_values + i);
+
     }
-    /*!!!!!!aqui hay un error de segmentacion!*/
+
     /*se elimina la memoria dinamica*/
     free_matrix(matrix, m);
     free(eigen_values);
