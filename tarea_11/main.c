@@ -8,7 +8,7 @@
 #ifndef ZERO
 #define ZERO 0
 #endif/*ZERO*/
-#define NU 2
+#define NU 3
 
 int main(void)
 {
