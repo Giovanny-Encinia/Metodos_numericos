@@ -8,7 +8,7 @@
 #ifndef ZERO
 #define ZERO 0
 #endif/*ZERO*/
-#define NU 2
+#define NU 3
 
 int main(void)
 {
@@ -41,6 +41,11 @@ int main(void)
     */
     
     eigenvectores = subespacio(matrix, m, NU, eigenvalores);
+
+    printf("Los eigenvalores son:\n");
+    print_matrix(eigenvalores, NU, NU);
+    printf("\nLos eigenvectores(en columnas) son:\n");
+    print_matrix(eigenvectores, m, NU);
 
 
     free(eigenvalores[0]);

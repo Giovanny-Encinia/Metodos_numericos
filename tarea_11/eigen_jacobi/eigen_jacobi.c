@@ -187,6 +187,6 @@ double **eigen_jacobi(double **matrix, int m)
         iteration++;
     }
 
-    printf("El numero de iteraciones es: %d\n", iteration);
+    /*printf("El numero de iteraciones es: %d\n", iteration);*/
     return eigenvectores;
 }

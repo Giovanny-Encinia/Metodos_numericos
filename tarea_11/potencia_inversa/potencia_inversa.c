@@ -85,7 +85,6 @@ double **eigen_menor(double **matrix, int m, double **eigen_old , int k, int sub
         de los eigenvectores*/
         if(k && !subespacio)
         {
-            printf("no funciona\n");
 
             for(i = ZERO; i < k; i++)
             {
@@ -241,7 +240,10 @@ double **eigen_menores(double **matrix, int m, int n, int *number, double *eigen
             printf("\n");
         }
         else
-            printf("calculando eigenvalores...\n");
+        {
+            if(!subespacio)
+                printf("calculando eigenvalores...\n");
+        }
 
         /*pide memoria para separar eigenvalores y
         eigenvectores*/
@@ -270,6 +272,8 @@ double **eigen_menores(double **matrix, int m, int n, int *number, double *eigen
     free_matrix(matrix, m);
     free(eigen_values);
 
-    printf("Proceso terminado con exito>>>>>>>>>>>>\n");
+    if(!subespacio)
+        printf("Proceso terminado con exito>>>>>>>>>>>>\n");
+        
     return eigen_old;
 }

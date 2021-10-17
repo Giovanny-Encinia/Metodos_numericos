@@ -91,17 +91,13 @@ double **subespacio(double **matrix, int m, int number_eigen, double **eigen_val
         iteration++;
     }
 
-    printf("valores salida\n");
-    print_matrix(eigen_valores, number_eigen, number_eigen);
-    printf("funciona\n");
     /*se copian los elementos de los eigenvalores*/
     for(i = ZERO; i < number_eigen; i++)
     {
         for(j = ZERO; j < number_eigen; j++)
             *(*(eigen_valores_ + i) + j) = *(*(eigen_valores + i) + j);
     }
-
-    print_matrix(eigenvectores, m, number_eigen);
+    
     free(eigen_traspuesta[0]);
     free(eigen_traspuesta);
     free(eigen_valores[0]);
