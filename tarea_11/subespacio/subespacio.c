@@ -5,12 +5,12 @@
 #include "../potencia_inversa/potencia_inversa.h"
 #include "../matrix_math/matrix_math.h"
 #include "../print_read/prdynamic.h"
-#define ERROR 1E-13
-#define LIMITE 1000
+#define ERROR 1E-10
+#define LIMITE 2000
 
 double **subespacio(double **matrix, int m, int number_eigen, double **eigen_valores_)
 {
-    int i, j, condition = 1, number, iteration = ZERO;
+    int i, j, condition = ONE, number, iteration = ZERO;
     double **eigenvectores, **eigen_temp, **eigen_traspuesta;
     double *evalues, **Q, **Q_t, **LU, **Qtemp, **eigen_valores;
     double **der, **izq;
@@ -38,14 +38,6 @@ double **subespacio(double **matrix, int m, int number_eigen, double **eigen_val
         
         /*Se trata de diagonalizar la matriz B: eigen_valores*/
         Q = eigen_jacobi(eigen_valores, number_eigen);
-        /*printf("vectores\n");
-        print_matrix(eigenvectores, m, number_eigen);
-        printf("valores\n");
-        print_matrix(eigen_valores , number_eigen, number_eigen);
-        printf("Q\n");
-        print_matrix(Q, number_eigen, number_eigen);*/
-        /*se elimina la memoria dinamica que se pide
-        en eigen_valores*/
 
         /*Se revisa que la matriz se halla diagonalizado*/
         for (i = ZERO; i < number_eigen; i++)
@@ -55,7 +47,7 @@ double **subespacio(double **matrix, int m, int number_eigen, double **eigen_val
                 if (i != j)
                 {
                     if (fabs(*(*(eigen_valores + i) + j)) < ERROR)
-                        condition += ZERO;
+                        condition = ZERO;
                     else
                         condition += ONE;
                 }
@@ -91,13 +83,14 @@ double **subespacio(double **matrix, int m, int number_eigen, double **eigen_val
         iteration++;
     }
 
+    printf("El numero de iteraciones es: %d\n", iteration + ONE);
     /*se copian los elementos de los eigenvalores*/
     for(i = ZERO; i < number_eigen; i++)
     {
         for(j = ZERO; j < number_eigen; j++)
             *(*(eigen_valores_ + i) + j) = *(*(eigen_valores + i) + j);
     }
-    
+
     free(eigen_traspuesta[0]);
     free(eigen_traspuesta);
     free(eigen_valores[0]);
