@@ -83,8 +83,9 @@ double **eigen_menor(double **matrix, int m, double **eigen_old , int k, int sub
 
         /*aqui se quitan los terminos anteriores
         de los eigenvectores*/
-        if(k)
+        if(k && !subespacio)
         {
+            printf("no funciona\n");
 
             for(i = ZERO; i < k; i++)
             {
@@ -112,39 +113,41 @@ double **eigen_menor(double **matrix, int m, double **eigen_old , int k, int sub
         primera vez, en x1 se guarda el resultado*/
         value = solve_lu(matrix, m, x1, x0, iteration + k);
 
-
         if(!value)
             printf("No se puede factorizar\n");
 
         /*calcula el valor de lambda x1^{T}x0/ x0^{T}x0*/
-        numerador = dot_vector(x0, x0, m);
-        denominador = dot_vector(x1, x0, m);
-
-        /*es el nuevo valor del eigenvalor*/
-        **(sol) = numerador / denominador;
-
-        /*identifica cuando converge al eigenvalor dominante*/
-        if(fabs(lambda_old - (**sol)) < ERROR)
+        if(!subespacio)
         {
-            /*se guarda el eigenvector*/
-            /*memoria en x1 se elimina al eliminar memoria de sol*/
+            numerador = dot_vector(x0, x0, m);
+            denominador = dot_vector(x1, x0, m);
 
-            normalizar_vector(x1, m);
+            /*es el nuevo valor del eigenvalor*/
+            **(sol) = numerador / denominador;
 
-            for(i = ZERO; i < m; i++)
-                *(*(sol + ONE) + i) = *(x1 + i);
+            /*identifica cuando converge al eigenvalor dominante*/
+            if(fabs(lambda_old - (**sol)) < ERROR)
+            {
+                /*se guarda el eigenvector*/
+                /*memoria en x1 se elimina al eliminar memoria de sol*/
 
-            free(x1);
-            /*liberamos la memoria de x0*/
-            free(x0);
-            /*liberamos la matriz que se aha creado*/
-            
-            return sol;
+                normalizar_vector(x1, m);
+
+                for(i = ZERO; i < m; i++)
+                    *(*(sol + ONE) + i) = *(x1 + i);
+
+                free(x1);
+                /*liberamos la memoria de x0*/
+                free(x0);
+                /*liberamos la matriz que se aha creado*/
+                
+                return sol;
+            }
+
+            /*se actualiza lammbda old*/
+            lambda_old = **(sol);
         }
         
-        /*se actualiza lammbda old*/
-
-        lambda_old = **(sol);
 
         /*se actualiza el vector inicial*/
         for(i = ZERO; i < m; i++)

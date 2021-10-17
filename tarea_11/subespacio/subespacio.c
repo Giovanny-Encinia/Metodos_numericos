@@ -6,7 +6,7 @@
 #include "../matrix_math/matrix_math.h"
 #include "../print_read/prdynamic.h"
 #define ERROR 1E-13
-#define LIMITE 40
+#define LIMITE 2
 
 double **subespacio(double **matrix, int m, int number_eigen, double **eigen_valores_)
 {
@@ -25,37 +25,19 @@ double **subespacio(double **matrix, int m, int number_eigen, double **eigen_val
         eigen_traspuesta = eigen_menores(LU, m, m, &number, evalues, number_eigen, ONE, eigen_traspuesta);
         /*se libera memoria de los eigenvalores ya que no se necesitan aun*/
         /*realiza el producto de \Phi^{T} * A*/
+        
         ortononormalizar(eigen_traspuesta, number_eigen, m);
+        
         eigen_temp = dot_matrix(eigen_traspuesta, matrix, number_eigen, m, m, m);
         /*regresa a normalidad la traspuesta*/
         eigenvectores = traspuesta(eigen_traspuesta, number_eigen, m);
         /*con base a la teoria, este seria nuestra matriz B*/
         eigen_valores = dot_matrix(eigen_temp, eigenvectores, number_eigen, m, m, number_eigen);
         /*se libera la memoria de variables auxiliares*/
+        
         free(eigen_temp[0]);
         free(eigen_temp);
         
-        
-        /*Se revisa que la matriz se halla diagonalizado*/
-        for(i = ZERO; i < number_eigen; i++)
-        {
-            for(j = ZERO; j < number_eigen; j++)
-            {
-                if(i != j)
-                {
-                    if(fabs(*(*(eigen_valores + i) + j)) < ERROR)
-                        condition += ZERO;
-                    else
-                        condition += ONE;
-                }
-            }
-
-        }
-        
-        /*la matriz ha sido diagonalizada, termina el ciclo*/
-        if(!condition || iteration >= LIMITE - ONE)
-            break;
-
         /*Se trata de diagonalizar la matriz B: eigen_valores*/
         Q = eigen_jacobi(eigen_valores, number_eigen);
         /*printf("vectores\n");
@@ -66,6 +48,26 @@ double **subespacio(double **matrix, int m, int number_eigen, double **eigen_val
         print_matrix(Q, number_eigen, number_eigen);*/
         /*se elimina la memoria dinamica que se pide
         en eigen_valores*/
+
+        /*Se revisa que la matriz se halla diagonalizado*/
+        for (i = ZERO; i < number_eigen; i++)
+        {
+            for (j = ZERO; j < number_eigen; j++)
+            {
+                if (i != j)
+                {
+                    if (fabs(*(*(eigen_valores + i) + j)) < ERROR)
+                        condition += ZERO;
+                    else
+                        condition += ONE;
+                }
+            }
+        }
+
+        /*la matriz ha sido diagonalizada, termina el ciclo*/
+        if (!condition || iteration >= LIMITE - ONE)
+            break;
+
         free(eigen_valores[0]);
         free(eigen_valores);
         
@@ -101,7 +103,7 @@ double **subespacio(double **matrix, int m, int number_eigen, double **eigen_val
             *(*(eigen_valores_ + i) + j) = *(*(eigen_valores + i) + j);
     }
 
-    
+    print_matrix(eigenvectores, m, number_eigen);
     free(eigen_traspuesta[0]);
     free(eigen_traspuesta);
     free(eigen_valores[0]);

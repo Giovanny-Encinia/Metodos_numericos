@@ -265,7 +265,7 @@ void ortononormalizar(double **vectores, int m, int n)
     en la misma matriz de entrada*/
 
     int i, j, k;
-    double **temporal, *contribution, factor;
+    double **temporal, *contribution, factor, denominador;
 
     /*Existen m vectores de dimension n*/
     temporal = (double **)malloc(m * sizeof(double *));
@@ -275,8 +275,10 @@ void ortononormalizar(double **vectores, int m, int n)
         *(temporal + i) = *(temporal + i - ONE) + m;
 
     /*u1 = v1, asi se inicia gramschmidt*/
+    denominador = sqrt(dot_vector(*vectores, *vectores, n));
+
     for (i = ZERO; i < n; i++)
-        *(*temporal + i) = *(*vectores + i);
+        *(*temporal + i) = *(*vectores + i)/ denominador;
 
     for (i = ONE; i < m; i++)
     {
@@ -304,8 +306,10 @@ void ortononormalizar(double **vectores, int m, int n)
 
     for (i = ZERO; i < m; i++)
     {
+        denominador = sqrt(dot_vector(*(temporal + i), *(temporal + i), n));
+
         for (j = ZERO; j < n; j++)
-            *(*(vectores + i) + j) = *(*(temporal + i) + j);
+            *(*(vectores + i) + j) = *(*(temporal + i) + j) / denominador;
     }
 
     free(*temporal);
