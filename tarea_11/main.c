@@ -26,14 +26,7 @@ void print_ray(char *name, char *save, double *eigenvector, double eigenvalor)
     fprintf(file, "El eigenvector es:\n");
 
     for(i = ZERO; i < m; i++)
-    {
-        fprintf(file, "%.10lf ", *(eigenvector + i));
-        i++;
-
-        if (i % 5 == ZERO)
-            fprintf(file, "\n");
-
-    }
+        fprintf(file, "%.10lf, ", *(eigenvector + i));
 
     printf("Se ha guardado el resultado en : %s\n", save);
 
@@ -83,6 +76,7 @@ void print_subes(char *name, char *save, int number_eigen)
     free(eigenvalores);
     free_matrix(eigenvectores, number_eigen);
     free_matrix(matrix, m);
+    fclose(file);
 }
 
 int main(void)
@@ -90,24 +84,24 @@ int main(void)
     double eigenvalor, eigenvector1[3];
     double eigenvalor2 = 9;
     double eigenvector2[] = {
-        -0.999955,
-        0.008310,
-        0.001880,
-        0.002572,
-        0.001970,
-        0.001803,
-        0.000302,
-        0.000455,
-        0.000944,
-        0.000297,
-        0.000546,
-        0.000420,
-        0.000516,
-        0.000272,
-        0.000354,
-        0.000623,
-        0.000563,
-        0.000367,
+        -0.1,
+        0.008510,
+        0.001980,
+        0.002672,
+        0.002070,
+        0.001903,
+        0.000312,
+        0.000465,
+        0.000954,
+        0.000307,
+        0.000556,
+        0.000430,
+        0.000536,
+        0.000292,
+        0.000394,
+        0.000643,
+        0.000593,
+        0.000397,
         0.000391,
         0.000068,
         0.000296,
@@ -129,16 +123,16 @@ int main(void)
         0.000141,
         0.000129,
         0.000252,
-        0.000072,
+        0.000092,
         0.000189,
         0.000126,
         0.000180,
         0.000089,
-        0.000199,
-        0.000059,
+        0.000299,
+        0.000069,
         0.000073,
         0.000169,
-        0.000188,
+        0.000198,
         0.000011,
     };
 
