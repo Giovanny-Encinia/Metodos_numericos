@@ -6,7 +6,7 @@
 #include "../matrix_math/matrix_math.h"
 #include "../print_read/prdynamic.h"
 #define ERROR 1E-13
-#define LIMITE 2
+#define LIMITE 1000
 
 double **subespacio(double **matrix, int m, int number_eigen, double **eigen_valores_)
 {
@@ -25,9 +25,7 @@ double **subespacio(double **matrix, int m, int number_eigen, double **eigen_val
         eigen_traspuesta = eigen_menores(LU, m, m, &number, evalues, number_eigen, ONE, eigen_traspuesta);
         /*se libera memoria de los eigenvalores ya que no se necesitan aun*/
         /*realiza el producto de \Phi^{T} * A*/
-        
         ortononormalizar(eigen_traspuesta, number_eigen, m);
-        
         eigen_temp = dot_matrix(eigen_traspuesta, matrix, number_eigen, m, m, m);
         /*regresa a normalidad la traspuesta*/
         eigenvectores = traspuesta(eigen_traspuesta, number_eigen, m);
