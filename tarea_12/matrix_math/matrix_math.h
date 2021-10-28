@@ -12,6 +12,7 @@
 #ifndef TWO
 #define TWO 2
 #endif /*TWO*/
+double **matriz_identidad(int m);
 double norma(double *vector, int m);
 double **matrix_zero(int m, int n);
 void ortononormalizar(double **vectores, int m, int n);

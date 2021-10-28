@@ -13,6 +13,25 @@
 #define TWO 2
 #endif /*TWO*/
 
+double **matriz_identidad(int m)
+{ 
+    /*Funcion que crea una matriz identidad, la matriz
+ es creada de manera dinamica de manera estandar*/
+
+    double **matrix;
+    int i, j;
+
+    matrix = (double **)calloc(m, sizeof(double *));
+
+    for (i = ZERO; i < m; i++)
+        *(matrix + i) = (double *)calloc(m, sizeof(double));
+
+    for(i = ZERO; i < m; i++)
+        *(*(matrix + i) + i) = ONE;
+
+    return matrix;
+}
+
 double norma(double *vector, int m)
 {
     /*funcion que calcula la norma de un vector*/

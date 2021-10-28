@@ -5,23 +5,18 @@
 
 int main(void)
 {
-    double **matrix, **r, **resultado, **matrix_t;
+    double **matrix, *eigenvalores, **resultado, **matrix_t;
     int m, n;
 
     matrix = read_matrix_file_2("test.txt", &m, &n);
-    matrix_t = traspuesta(matrix, m, m);
-    r = qr_factor(matrix_t, m);
+    eigenvalores = qr_eigen(matrix, m);
 
-    print_matrix(matrix_t, m, m);
-    printf("R\n");
-    print_matrix(r, m, m);
-    resultado = dot_matrix(matrix_t, r, m, m, m, m);
-    printf("Original con QR\n");
-    print_matrix(resultado, m, m);
+    printf("eigenvectores:\n");
+    print_matrix(matrix, m, m);
+    printf("Eigenvalores\n");
+    print_solucion(eigenvalores, m);
     free_expanded_matrix(matrix, m);
-    free_matrix(r, m);
-    free_matrix(resultado, m);
-    free_matrix(matrix_t, m);
+    free_array(eigenvalores);
 
     return 0;
 }
