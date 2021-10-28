@@ -6,3 +6,7 @@ despues aparecera un ejecutable tarea11
 
 y debe ejecutarse
 ./tarea11
+
+Los resultados obtenidos se encuentran en la carpeta Resultados/
+En Resultados/ra/ se encuentran los resultados del método de Rayleigh
+En Resultados/su se encuentran los resultados del método de la potencia
