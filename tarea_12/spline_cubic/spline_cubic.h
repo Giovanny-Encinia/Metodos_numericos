@@ -1,0 +1,3 @@
+#ifndef SPLINECUBICH
+#define SPLINECUBUCH
+#endif /*SPLINECUBUCH*/
