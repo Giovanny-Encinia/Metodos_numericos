@@ -3,7 +3,7 @@
 #include <math.h>
 #include "../matrix_math/matrix_math.h"
 #include "../print_read/print_read.h"
-#define ERROR 1E-9
+#define ERROR 1E-13
 
 int condicion_paro(double **q, int m)
 {
