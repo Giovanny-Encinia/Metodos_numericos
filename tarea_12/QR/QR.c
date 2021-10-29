@@ -33,8 +33,11 @@ int condicion_paro(double **q, int m)
 
             if(i == j)
             {
-
-                if(fabs(*(*(q + i) + j) - ONE) > ERROR)
+                /*se observa que es posible que q tenga en 
+                su diagonal -1 y todos los elementos fuera
+                de la diagonal 
+                son ceros*/
+                if(fabs(fabs(*(*(q + i) + j)) - ONE) > ERROR)
                     return ZERO;
 
             }
@@ -158,7 +161,7 @@ double *qr_eigen(double **matrix, int m)
 
     double **r, **resultado, **matrix_t, **xk, **eigenvectors;
     double **eigenvectors_c, *eigenvalores;
-    int i, j, iteration = ZERO;
+    int i, j, iteration = ZERO, condition = ONE;
 
     eigenvectors = matriz_identidad(m);
     /*se manipulan los vectores que estan como filas*/
@@ -168,7 +171,7 @@ double *qr_eigen(double **matrix, int m)
     
     /*inicia el proceso iterativo, recordemos que Qk
     en nuestro caso es matrix_t*/
-    while(!condicion_paro(matrix_t, m) && iteration < 20)
+    while(condition && iteration < 100)
     {
         /*calcula la aproximacion a la matriz diagonal que
         contiene los eigenvalores*/
@@ -178,6 +181,10 @@ double *qr_eigen(double **matrix, int m)
         eigenvectors_c = dot_matrix(eigenvectors, matrix_t, m, m, m, m);
         free_matrix(eigenvectors, m);
         eigenvectors = copy_matrix(eigenvectors_c, m, m);
+
+        if(condicion_paro(matrix_t, m))
+            condition = ZERO;
+
         free_matrix(eigenvectors_c, m);
         free_matrix(matrix_t, m);
         /*se transpone para manipulas las vectores
