@@ -1,0 +1,8 @@
+Tarea 4 Metodos numericos
+Carlos Giovanny Encinia Gonzalez
+
+
+Modificacion para examen:
+
+Se debe de correr desde CodeBlocks
+Ejecutar e manera estandar

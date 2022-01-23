@@ -134,8 +134,6 @@ double **eigen_jacobi(double **matrix, int m)
 
         }
 
-
-
         /*aqui se realizan los calculos de la matriz con eigenvectores
         con cada iteracion esta se actualiza*/
         /*si es la primera iteration nuestra primera aproximacion, simplemente

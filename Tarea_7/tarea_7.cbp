@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="tarea_7" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/tarea_7" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/tarea_7" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="LU/factorization_lu.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="LU/factorization_lu.h" />
+		<Unit filename="cholesky/cholesky.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cholesky/cholesky.h" />
+		<Unit filename="funciones_generadoras_matrices/funcion_generadora_mat.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="funciones_generadoras_matrices/funcion_generadora_mat.h" />
+		<Unit filename="gauss_pivoteo_total/solve_gauss_pt.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="gauss_pivoteo_total/solve_gauss_pt.h" />
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="print_read/prdynamic.h" />
+		<Unit filename="print_read/print_read_dinamyc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Extensions />
+	</Project>
+</CodeBlocks_project_file>

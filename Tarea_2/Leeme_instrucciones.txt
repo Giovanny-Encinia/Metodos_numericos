@@ -1,0 +1,8 @@
+Tarea 2 Metodos numericos
+Carlos Giovanny Encinia Gonzalez
+
+
+Se deben abrir los archivos .cbp en codeblocks, despues se debe compilar y ejecutar el programa.
+
+Los archivos .cp se encuentran en las carpetas problem_1, proble_2, problem_3, cada uno hace referencia al
+algoritmo realizado para cada ejercicio de la terea.

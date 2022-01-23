@@ -35,19 +35,17 @@ double **eigen_menor(char *name, int *m_c)
     char *name: el nombre del archivo de donde se leera la matriz
     int *m_c: variable en donde se alojara el tamanio de la matriz
     */
+
     double **matrix, *x1, *x0, lambda_old = 400000000;
     /*se almacena el eigenvalor y eigenvector*/
     /*El primer elemento sera el eigenvalor*/
     double **sol = (double **)malloc(TWO * sizeof(double *));
-    double numerador, denominador;
     int condition = ONE;
     int  n, iteration = ZERO, m, value, i;
 
-
-
+    x1 = (double *)calloc(m, sizeof(double));
     matrix = read_matrix_file(name, &m, &n, ZERO);
     *m_c = m;
-
     *sol = (double*)malloc(sizeof(double));
     *(sol + ONE) = (double*)malloc(m * sizeof(double));
     /*Se crea espacio para el vector inicial*/
@@ -58,18 +56,13 @@ double **eigen_menor(char *name, int *m_c)
     while(condition && iteration < LIMIT)
     {
         /*calcula el valor del nuevo vector con x0 = A^{-1}x1*/
-        x1 = (double *)calloc(m, sizeof(double));
         value = solve_lu(matrix, m, x1, x0, iteration);
 
         if(!value)
             printf("No se puede factorizar\n");
 
         /*calcula el valor de lambda x1^{T}x0/ x0^{T}x0*/
-        numerador = dot_vector(x0, x0, m);
-        denominador = dot_vector(x1, x0, m);
-
-
-        **(sol) = numerador / denominador;
+        **(sol) = dot_vector(x0, x0, m) / dot_vector(x1, x0, m);
 
         /*identifica cuando converge al eigenvalor dominante*/
         if(fabs(lambda_old - (**sol)) < ERROR)
@@ -87,7 +80,7 @@ double **eigen_menor(char *name, int *m_c)
 
         for(i = ZERO; i < m; i++)
             *(x0 + i) = *(x1 + i);
-free(x1);
+
         /*es necesario normalizar para que los elementos
         de los vectores no sean demasiados
         grandes*/

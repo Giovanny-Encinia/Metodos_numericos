@@ -35,7 +35,6 @@ void imprimir_resultado_eigen(char *name, int t, char *name_save, int normalizar
     printf("\t------------------------");
     printf("-----------------------------------------------------------\n");
     sol_m = eigen_menor(name, &m);
-
     printf("\tEigenvalor: %lf\n", **sol_m);
     printf("\tEigenvalor\n");
     print_solucion(*(sol_m + ONE), m);
@@ -52,8 +51,8 @@ void imprimir_resultado_eigen(char *name, int t, char *name_save, int normalizar
 int main()
 {
     imprimir_resultado_eigen("Materiales/Eigen_3x3.txt", 3, "Resultados/Eigen_3.txt", 2);
-imprimir_resultado_eigen("Materiales/Eigen_50x50.txt", 50, "Resultados/Eigen_50.txt", 2);
-/*imprimir_resultado_eigen("Materiales/Eigen_125x125.txt", 125, "Resultados/Eigen_125.txt", 0);*/
+    imprimir_resultado_eigen("Materiales/Eigen_50x50.txt", 50, "Resultados/Eigen_50.txt", 2);
+    imprimir_resultado_eigen("Materiales/Eigen_125x125.txt", 125, "Resultados/Eigen_125.txt", 0);
 
     return ZERO;
 }

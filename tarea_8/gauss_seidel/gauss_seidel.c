@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <math.h>
+#include <stdio.h>
 #include "../print_read/prdynamic.h"
 #define ZERO 0
 #define ONE 1
@@ -99,5 +100,4 @@ void *solve_gauss_seidel(char *name_mat, char *name_vec, double error)
     free(x);
     free(y);
     free_matrix(matrix, m);
-
 }

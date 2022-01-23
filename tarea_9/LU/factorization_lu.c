@@ -172,8 +172,8 @@ int solve_lu(double **matrix, int m, double *x, double *y, int factorizada)
         superior*/
         triangular_infer_lu(matrix, m, y_p, y);
         triangular_super_lu(matrix, m, x, y_p);
-
         free(y_p);
+
         return ONE;
     }
     else

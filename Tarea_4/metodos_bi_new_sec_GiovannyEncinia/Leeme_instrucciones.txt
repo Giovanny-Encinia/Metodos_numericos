@@ -1,0 +1,7 @@
+Tarea 4 Metodos numericos
+Carlos Giovanny Encinia Gonzalez
+
+
+Se deben abrir los archivos .cbp en codeblocks, despues se debe compilar y ejecutar el programa. Se utilizan las librerias estandar de math.h, ctype.h, stdio.h, stdlib.h  y time.h asi que se debe de asegurar que codebloks pueda acceder a estas librerias
+
+Los tres problemas de la tarea se resuleven conel mismo programa, solo se debe de elegir la funcion a la que se quiere encontrar su raiz. Mas informacion se puede encontrar en el pdf de la tarea.
