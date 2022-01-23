@@ -1,4 +1,4 @@
-# Metodos_numericos
+# Métodos numericos
 
 Aquí muestro los algoritmos utilizados para cada una de las tareas que se me encargarón durante el primer semestre de la Maestría.
 Cada carpeta a demás de contener los algotimos, contienen un .pdf, que habla más a detalle como es que se llego a crear el algoritmo partiendo
